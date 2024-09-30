@@ -1,0 +1,22 @@
+.fondo {
+    text-align: center;
+    margin-top: 0;
+    background-color: #cedeff;
+    min-height: 100vh;
+    display: block;
+    padding: 0px;  
+}
+.boton {
+    background-color: #4CAF50   ; 
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+.boton:hover {
+    background-color: #4A6BBA; /* Color de fondo al pasar el mouse */
+}
+

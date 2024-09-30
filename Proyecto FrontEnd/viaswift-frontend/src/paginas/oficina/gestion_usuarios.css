@@ -1,0 +1,11 @@
+.fondo_gestion_usuarios {
+    background-color: #cedeff;
+    height: 100vh;
+    display: flex;
+}
+
+.lista_usuarios {
+    width: 80%;
+    max-width: 1200px;
+    margin: 20px auto;
+}

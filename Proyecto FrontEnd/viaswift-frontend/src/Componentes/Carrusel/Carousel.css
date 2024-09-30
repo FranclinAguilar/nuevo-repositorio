@@ -1,0 +1,14 @@
+.carousel-item img {
+    width: 100%;
+    height: 500%;
+  }
+  
+  .imagen-curvada {
+    border-radius: 10px; /* Ajusta el valor para un mayor o menor curvado */
+    width: 100%; /* Asegúrate de que la imagen ocupe el ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.carousel-item img {
+    object-fit: cover; /* Asegura que la imagen cubra el área del carrusel */
+}

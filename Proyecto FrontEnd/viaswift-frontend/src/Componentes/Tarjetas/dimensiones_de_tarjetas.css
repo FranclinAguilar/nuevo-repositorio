@@ -1,0 +1,41 @@
+
+.una_tarjeta, .dos_tarjetas {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .dos_tarjetas {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+  }
+  
+  .una_tarjeta {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: auto;
+  }
+  
+  .dos_tarjetas > * {
+    width: 100%;
+    max-width: 400px;
+    height: auto; 
+  }
+  
+  /* Estilo para las tarjetas dentro de una_tarjeta */
+  .una_tarjeta > * {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 420px; /* Ancho máximo de la tarjeta */
+    height: auto; /* Altura ajustada automáticamente */
+  }
+  
+  /* Estilos responsivos */
+  @media (min-width: 768px) {
+    .dos_tarjetas {
+      flex-direction: row; /* Alinea las tarjetas en una fila en pantallas grandes */
+      justify-content: center; /* Centra las tarjetas horizontalmente */
+    }
+  }
+  

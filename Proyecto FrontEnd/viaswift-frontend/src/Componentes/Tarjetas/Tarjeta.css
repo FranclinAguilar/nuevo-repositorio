@@ -1,0 +1,22 @@
+.Tarjeta{
+    background-color: #cedeff ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #CDD7F0; 
+    border-radius: 5px;
+    backdrop-filter: blur(10px); 
+    border-radius: 10px; 
+
+}
+.Tarjeta-Titulo{
+    text-align: center;
+}
+
+.Tarjeta-Contenido{
+    text-align: center;
+}
+.Tarjeta:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}

@@ -1,0 +1,96 @@
+/* Crud_Usuarios.css */
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1.5px solid #ffffff;
+    border-radius: 15px;
+    background-color: #A7C6ED ;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .button-group button {
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      background-color: #4CAF50    ;
+      color: 223964 ;
+      font-weight: bold;
+  }
+  
+  .button-group button:hover {
+    background-color: #03c9d7;
+  }
+  
+  table {
+    border-radius: 10px 10px 0 0;
+    background-color: #ffffff;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  .th-esquina1{
+    border-radius: 10px 0 0 0;
+  }
+  .th-esquina2{
+    border-radius: 0 10px 0 0;
+  }
+
+  th {
+    background-color: #ffffff;
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-warning:hover {
+    background-color: #e0a800;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+  
+  .alert.error {
+    color: red;
+    margin-bottom: 20px;
+  }
+  

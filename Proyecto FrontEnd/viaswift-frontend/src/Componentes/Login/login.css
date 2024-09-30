@@ -1,0 +1,86 @@
+
+.contenedor_login{
+  margin-top: -120px;
+
+}
+.ViaSvel {
+  font-family: 'Arial', sans-serif; 
+  font-size: 36px;
+  font-weight: bold; 
+  color: #7674f9; 
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  letter-spacing: 2px;
+  text-transform: uppercase; 
+  text-align: center;
+}
+
+.iniciosesion{
+  color: #7674f9;
+  margin: auto;
+}
+
+.login-form {
+  background-color: #2D394B;
+  padding: 30px;
+  margin-top: 0px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.409);
+  width: 100%;
+
+  max-width: 400px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.contenedor_login label {
+  display: contents;
+  font-weight: bold;
+  color: #7674f9;
+}
+
+input {
+  color: #59c2e1;
+  background-color: #cedeff;
+  width: 100%;
+  padding: 10px;
+  border-radius: 17px;
+  font-size: 19px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+
+input::placeholder {
+  font-weight: normal;
+  color: #57b7d4; 
+  opacity: 0.9; 
+}
+
+
+
+.submit-button {
+  padding: 10px;
+  background-color: #7674f9; 
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 17px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #57b7d4;
+}
+
+/* Mensaje de error */
+.error-alert {
+  background-color: #f8d7da;
+  color: #ff021b;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+}
