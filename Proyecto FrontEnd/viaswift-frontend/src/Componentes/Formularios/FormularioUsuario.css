@@ -8,26 +8,34 @@
     position: relative;
     top: 30px; 
     border: 1.5px solid #ffffff;
+    
+}
+.fondo_formulario{
+    background-Color: #cedeff;
+    height: 100vh;
 }
 form {
     display: flex;
     flex-direction: column;
 }
 
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-input, select {
-
+.inputs_formulario{
+    color: #3e3e3e;
     padding: 4px;
     border-radius: 4px;
     border: 1px solid #ffffff;
     width: 100%;
+    margin-bottom: 15px;
+}
+.inputs_formulario::placeholder {
+    color: #888; /* Color del texto del placeholder */
+    opacity: 1; /* Asegúrate de que sea completamente visible */
+    opacity: 0.5;
 }
 
+
 input:focus, select:focus {
-    border-color: #59c2e1;
+    border-color: #808080;
     outline: none;
 
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import conector from '../../Servicios/conector'; 
+import conector from '../../Servicios/conector';
 import './Crud_Usuarios.css';
 
 const Crud_Usuarios = () => {
@@ -26,7 +26,7 @@ const Crud_Usuarios = () => {
   const handleEdit = (id) => {
     navigate(`/usuarios/CrearUsuario/${id}`);
   };
-  
+
   const handleDelete = async (nombre, id) => {
     if (window.confirm(`¿Estás seguro de que deseas eliminar al usuario ${nombre}?`)) {
       try {
@@ -64,12 +64,15 @@ const Crud_Usuarios = () => {
       <table>
         <thead>
           <tr>
-            <th className='th-esquina1'>No</th>
+            <th className='th-esquina1'>N°</th>
+            <th>ci</th>
             <th>Nombre</th>
-            <th>Email</th>
-            <th>Empresa ID</th>
+            <th>apellido</th>
+            <th>fecha de nacimiento</th>
+            <th>telefono</th>
+            <th>dirección</th>
+            <th>email</th>
             <th>Estado</th>
-            <th>Rol</th>
             <th className='th-esquina2'>Acciones</th>
           </tr>
         </thead>
@@ -77,25 +80,24 @@ const Crud_Usuarios = () => {
           {users.length > 0 ? (
             users.map((user, index) => (
               <tr key={user.id}>
-                <td>{index + 1}</td>
+                <td>{index + 1}</td> {/* Para mostrar el número de fila */}
+                <td>{user.ci}</td>
                 <td>{user.nombre || 'N/A'}</td>
+                <td>{user.apellido || 'N/A'}</td>
+                <td>{user.f_nacimiento || 'N/A'}</td>
+                <td>{user.telefono || 'N/A'}</td>
+                <td>{user.direccion || 'N/A'}</td>
                 <td>{user.email || 'N/A'}</td>
-                <td>{user.empresaId || 'N/A'}</td>
                 <td>{user.estado === 1 ? 'Activo' : 'Inactivo'}</td>
-                <td>{user.rol || 'N/A'}</td>
                 <td>
-                  <button className="btn-warning" onClick={() => handleEdit(user.id)}>
-                    Modificar
-                  </button>
-                  <button className="btn-danger" onClick={() => handleDelete(user.nombre, user.id)}>
-                    Eliminar
-                  </button>
+                  <button className="btn-warning" onClick={() => handleEdit(user.id)}>Modificar</button>
+                  <button className="btn-danger" onClick={() => handleDelete(user.nombre, user.id)}>Eliminar</button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="7" className="text-center">No hay usuarios disponibles</td>
+              <td colSpan="9" className="text-center">No hay usuarios disponibles</td>
             </tr>
           )}
         </tbody>

@@ -56,17 +56,25 @@ public class UsuarioService {
         return usuarioDTOs;
     }
 
-    //Método para convertir la entidad Usuario a UsuarioDTO
+    // Método para convertir la entidad Usuario a UsuarioDTO
     private UsuarioDTO convertToDTO(Usuario usuario) {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setId(usuario.getId());
+        usuarioDTO.setCi(usuario.getCi());
         usuarioDTO.setUsername(usuario.getUsername());
         usuarioDTO.setNombre(usuario.getNombre());
+        usuarioDTO.setApellido(usuario.getApellido());
+        usuarioDTO.setF_nacimiento(usuario.getF_nacimiento());
+        usuarioDTO.setTelefono(usuario.getTelefono());
+        usuarioDTO.setDireccion(usuario.getDireccion());
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setEmpresaId(usuario.getEmpresaId());
         usuarioDTO.setEstado(usuario.getEstado());
         usuarioDTO.setRol(usuario.getRol());
+        usuarioDTO.setPassword(usuario.getPassword()); // Asegúrate de que este campo esté aquí
 
         return usuarioDTO;
     }
+
+
 }
