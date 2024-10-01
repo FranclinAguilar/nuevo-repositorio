@@ -9,7 +9,8 @@ import Inicio_oficina from './paginas/oficina/inicio_oficina';
 import Gestion_usuarios from './paginas/oficina/gestion_usuarios';
 import Gestion_unidades from './paginas/oficina/gestion_unidades';
 import Gestion_viajes from './paginas/oficina/gestion_viajes';
-import Formulario_Usuario from './Componentes/Formularios/FormularioUsuario';
+import Registro_Usuarios from './paginas/oficina/registro_usuarios';
+
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
             <Route path="gestion_usuarios" element={<Gestion_usuarios/>}/>
             <Route path="gestion_unidades" element={<Gestion_unidades/>}/>
             <Route path="gestion_viajes" element={<Gestion_viajes/>}/>
-            <Route path="formulario_usuario" element={<Formulario_Usuario/>}/>
+            <Route path="registro_usuarios" element={<Registro_Usuarios/>}/>
 
           </Route>
         </Routes>

@@ -15,7 +15,11 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    public Usuario findBytelefono(String telefono){
+        return usuarioRepository.findByTelefono(telefono);
+    }
     public Usuario findByUsername(String username) {
+
         return usuarioRepository.findByUsername(username);
     }
 

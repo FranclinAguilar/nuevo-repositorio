@@ -19,6 +19,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    //Endpoint para visualizar todos los usuarios
     @GetMapping("/all")
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
         List<UsuarioDTO> usuarios = usuarioService.getAllUsuarios();
@@ -33,22 +34,18 @@ public class UsuarioController {
         boolean usernameExists = usuarioService.existsByUsername(usuario.getUsername());
 
         if (emailExists) {
-            // Retorna un mensaje indicando que el email ya está en uso
             return ResponseEntity.status(HttpStatus.CONFLICT).body("este email ya existe");
         }
 
         if (usernameExists) {
-            // Retorna un mensaje indicando que el username ya está en uso
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Nombre de usuario no disponible");
         }
 
-        // Si no existe, registrar el usuario
         usuarioService.saveUsuario(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario Registrado");
     }
 
-
-    @GetMapping("/{username}")
+    /*@GetMapping("/{username}")
     public ResponseEntity<Usuario> getUsuarioByUsername(@PathVariable String username) {
         Usuario usuario = usuarioService.findByUsername(username);
         if (usuario != null) {
@@ -68,9 +65,9 @@ public class UsuarioController {
 
         return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
     }
+    */
 
-
-
+    /*
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
         Usuario usuario = usuarioService.findByUsername(loginRequest.getUsername());
@@ -89,6 +86,27 @@ public class UsuarioController {
         } else {
             return ResponseEntity.status(401).body("Credenciales inválidas");
         }
+    }*/
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
+        Usuario usuario = usuarioService.findBytelefono((loginRequest.getTelefono()));
+        if (usuario != null && usuario.getPassword().equals(loginRequest.getPassword())){
+
+            if(usuario.getEstado() == 0){
+                return ResponseEntity.status(403).body("el usuario se encuentra inactivo");
+            }
+            Map<String, String> respuesta = new HashMap<>();
+            respuesta.put("message", "Login Exitoso");
+            respuesta.put("rol", usuario.getRol());
+            respuesta.put("nombre", usuario.getNombre());
+            respuesta.put("empresaId", usuario.getEmpresaId());
+
+            return ResponseEntity.ok().body(respuesta);
+        } else {
+            return ResponseEntity.status(401).body("Credenciales inválidas");
+        }
+
     }
 
 }
+

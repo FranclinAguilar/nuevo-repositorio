@@ -24,7 +24,7 @@ const Crud_Usuarios = () => {
   };
 
   const handleEdit = (id) => {
-    navigate(`/usuarios/CrearUsuario/${id}`);
+    navigate('/registro_usuarios');
   };
 
   const handleDelete = async (nombre, id) => {
@@ -43,7 +43,7 @@ const Crud_Usuarios = () => {
 
   // Función para navegar a la página de creación de usuario
   const goToCreateUser = () => {
-    navigate('/formulario_usuario');
+    navigate('/registro_usuarios');
   };
 
   return (

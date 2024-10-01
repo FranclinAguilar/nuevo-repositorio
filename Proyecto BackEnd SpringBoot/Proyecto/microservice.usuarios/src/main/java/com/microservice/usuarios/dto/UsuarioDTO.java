@@ -11,7 +11,7 @@ public class UsuarioDTO {
     private String nombre;
     private String apellido;
     private String f_nacimiento;
-    private int telefono;
+    private String telefono;
     private String direccion;
     private String email;
     private String empresaId;

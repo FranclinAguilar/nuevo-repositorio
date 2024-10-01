@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 
 const Login = () => {
-  const [usuario, setUsuario] = useState('');
+  const [telefono, setUsuario] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(false);
@@ -14,17 +14,18 @@ const Login = () => {
   const manejarEnvio = async (e) => {
     e.preventDefault();
     setError('');
-    if (!usuario || !contraseña) {
+    if (!telefono || !contraseña) {
       return setError('Usuario y contraseña son obligatorios');
     }
 
     setCargando(true);
 
     try {
-      const { data, status } = await conector.post('/login', { username: usuario, password: contraseña });
+      const { data, status } = await conector.post('/login', { telefono: telefono, password: contraseña });
       if (status === 200) {
         localStorage.setItem('empresaId', data.empresaId);
-        navigate(data.rol === '1' ? '/inicio_cliente' : '/inicio_oficina');
+        navigate(data.rol === 'Pasajero' ? '/inicio_cliente' : '/inicio_oficina');
+
       }
     } catch (err) {
       setError('Usuario o contraseña incorrectos');
@@ -45,8 +46,8 @@ const Login = () => {
           <input
             type="text"
             id="usuario"
-            placeholder="Introduce tu nombre de usuario"
-            value={usuario}
+            placeholder="Número de teléfono"
+            value={telefono}
             onChange={(e) => setUsuario(e.target.value)}
             required
           />
@@ -56,7 +57,7 @@ const Login = () => {
           <input
             type="password"
             id="contraseña"
-            placeholder="Introduce tu contraseña"
+            placeholder="Contraseña"
             value={contraseña}
             onChange={(e) => setContraseña(e.target.value)}
             required
