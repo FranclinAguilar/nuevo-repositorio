@@ -2,6 +2,7 @@
     background-color: #cedeff; /* Color de fondo */
     height: 100vh; /* Ocupa toda la altura de la ventana */
     overflow: auto;  /* Coloca los hijos en columna (opcional según tu diseño) */
+    width: auto;
 }
 
 .lista_usuarios {

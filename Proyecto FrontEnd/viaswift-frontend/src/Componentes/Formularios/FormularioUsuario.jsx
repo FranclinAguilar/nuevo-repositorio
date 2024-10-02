@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
-import conector from '../../Servicios/conector'; // Asegúrate de la ruta correcta
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import conector from '../../Servicios/conector'; 
 import './FormularioUsuario.css';
 
 const FormularioUsuario = () => {
+
+    //location
+    const location = useLocation();
+    const usuarioSeleccionado = location.state?.usuario || null;
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
     const [email, setEmail] = useState('');
@@ -15,9 +20,24 @@ const FormularioUsuario = () => {
     const [contraseña, setContraseña] = useState('');
     const [mensaje, setMensaje] = useState('');
 
-    const handleSubmit = async (e) => {
+    //cambio de estados para edición
+    useEffect(() => {
+        if (usuarioSeleccionado) {
+            setNombre(usuarioSeleccionado.nombre || '');
+            setApellido(usuarioSeleccionado.apellido || '');
+            setEmail(usuarioSeleccionado.email || '');
+            setCi(usuarioSeleccionado.ci || '');
+            setTelefono(usuarioSeleccionado.telefono || '');
+            setDireccion(usuarioSeleccionado.direccion || '');
+            setFNacimiento(usuarioSeleccionado.f_nacimiento || '');
+            setRol(usuarioSeleccionado.rol || 'Pasajero');
+        }
+    }, [usuarioSeleccionado]);
+
+    
+    const registrar= async (e) => {
         e.preventDefault();
-        const usuarioData = {
+        const DatosUsuario = {
             nombre,
             apellido,
             email,
@@ -31,13 +51,22 @@ const FormularioUsuario = () => {
         };
 
         try {
-            const response = await conector.post('/register', usuarioData);
-            setMensaje(response.data);
+            if (usuarioSeleccionado) {
+                // enviamos el los datos de Usuario en un Objeto JSON para su modificación
+                // usamos el método PUT
+                const respuestaActualizacion = await conector.put(`/update/${usuarioSeleccionado.id}`, DatosUsuario);
+                setMensaje(respuestaActualizacion.data);
+            } else {
+                // enviamos el los datos de Usuario en un Objeto JSON para su registro
+                // usamoe el método POST  
+                const respuestaRegistro = await conector.post('/register', DatosUsuario);
+                setMensaje(respuestaRegistro.data);
+            }
         } catch (error) {
             if (error.response) {
                 setMensaje(error.response.data);
             } else {
-                setMensaje("Error al registrar el usuario. Intente de nuevo.");
+                setMensaje("Error al registrar el usuario");
             }
         }
     };
@@ -45,8 +74,8 @@ const FormularioUsuario = () => {
     return (
         <div className='fondo_formulario'>
             <div className='contenedor_formulario'>
-                <h2>Registrar Usuario</h2>
-                <form onSubmit={handleSubmit}>
+                <h2>{usuarioSeleccionado ? 'Editar Usuario' : 'Registrar Usuario'}</h2>
+                <form onSubmit={registrar}>
                     <div>
                         <input
                             type="text"
@@ -66,7 +95,7 @@ const FormularioUsuario = () => {
                             placeholder="Contraseña"
                             value={contraseña}
                             onChange={(e) => setContraseña(e.target.value)}
-                            required
+                            required={!usuarioSeleccionado} // Solo requerido si es nuevo usuario
                         />
                     </div>
                     <div>
@@ -135,7 +164,9 @@ const FormularioUsuario = () => {
                             required
                         />
                     </div>
-                    <button className='registrar_usuario' type="submit">Registrar Usuario</button>
+                    <button className='registrar_usuario' type="submit">
+                        {usuarioSeleccionado ? 'Guardar Cambios' : 'Registrar Usuario'}
+                    </button>
                 </form>
                 {mensaje && <p>{mensaje}</p>}
             </div>

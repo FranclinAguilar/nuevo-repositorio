@@ -54,6 +54,20 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
+*/
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> modificarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
+        // Lógica para actualizar el usuario
+        boolean isUpdated = usuarioService.updateUsuarioById(id, usuarioActualizado);
+
+        if (!isUpdated) {
+            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>("Usuario modificado exitosamente", HttpStatus.OK);
+    }
+
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminarUsuario(@PathVariable Long id) {
@@ -65,7 +79,7 @@ public class UsuarioController {
 
         return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
     }
-    */
+
 
     /*
     @PostMapping("/login")

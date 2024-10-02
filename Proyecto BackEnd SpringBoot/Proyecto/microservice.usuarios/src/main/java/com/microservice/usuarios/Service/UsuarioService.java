@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,6 +80,29 @@ public class UsuarioService {
 
         return usuarioDTO;
     }
+
+    public boolean updateUsuarioById(Long id, Usuario usuarioActualizado) {
+        Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
+
+        if (usuarioExistente.isPresent()) {
+            Usuario usuario = usuarioExistente.get();
+            // Actualiza los campos del usuario existente con los datos del usuario actualizado
+            usuario.setNombre(usuarioActualizado.getNombre());
+            usuario.setApellido(usuarioActualizado.getApellido());
+            usuario.setEmail(usuarioActualizado.getEmail());
+            usuario.setCi(usuarioActualizado.getCi());
+            usuario.setTelefono(usuarioActualizado.getTelefono());
+            usuario.setDireccion(usuarioActualizado.getDireccion());
+            usuario.setF_nacimiento(usuarioActualizado.getF_nacimiento());
+            usuario.setRol(usuarioActualizado.getRol());
+            usuario.setPassword(usuarioActualizado.getPassword()); // Ten cuidado con almacenar contraseñas directamente
+
+            usuarioRepository.save(usuario); // Guarda los cambios
+            return true;
+        }
+        return false; // Si no se encontró el usuario
+    }
+
 
 
 }
