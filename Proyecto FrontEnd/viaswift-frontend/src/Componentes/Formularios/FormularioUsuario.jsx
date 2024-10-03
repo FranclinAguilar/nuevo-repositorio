@@ -75,6 +75,7 @@ const FormularioUsuario = () => {
         <div className='fondo_formulario'>
             <div className='contenedor_formulario'>
                 <h2>{usuarioSeleccionado ? 'Editar Usuario' : 'Registrar Usuario'}</h2>
+                {mensaje && <p>{mensaje}</p>}
                 <form onSubmit={registrar}>
                     <div>
                         <input
@@ -168,7 +169,6 @@ const FormularioUsuario = () => {
                         {usuarioSeleccionado ? 'Guardar Cambios' : 'Registrar Usuario'}
                     </button>
                 </form>
-                {mensaje && <p>{mensaje}</p>}
             </div>
         </div>
     );

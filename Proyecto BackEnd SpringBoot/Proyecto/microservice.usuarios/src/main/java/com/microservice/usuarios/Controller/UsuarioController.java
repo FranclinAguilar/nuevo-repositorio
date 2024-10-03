@@ -27,34 +27,30 @@ public class UsuarioController {
     }
 
 
+    //EndPoint para registrar verificando datos de teléfono o email
     @PostMapping("/register")
     public ResponseEntity<String> registerUsuario(@RequestBody Usuario usuario) {
-        // Verificar si el email o el username ya existen
+        // Verificar si el email o el telefono ya existen
         boolean emailExists = usuarioService.existsByEmail(usuario.getEmail());
-        boolean usernameExists = usuarioService.existsByUsername(usuario.getUsername());
+        boolean telefonoExists = usuarioService.existsBytelefono(usuario.getTelefono());
+        boolean ciExists = usuarioService.existsByci(usuario.getCi());
+
+        if (ciExists){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Documento de Identidad en uso");
+        }
 
         if (emailExists) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("este email ya existe");
         }
 
-        if (usernameExists) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Nombre de usuario no disponible");
+        if (telefonoExists) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El teléfono ya se encuentra en uso");
         }
 
         usuarioService.saveUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuario Registrado");
     }
 
-    /*@GetMapping("/{username}")
-    public ResponseEntity<Usuario> getUsuarioByUsername(@PathVariable String username) {
-        Usuario usuario = usuarioService.findByUsername(username);
-        if (usuario != null) {
-            return ResponseEntity.ok(usuario);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-*/
     @PutMapping("/update/{id}")
     public ResponseEntity<String> modificarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
         // Lógica para actualizar el usuario
@@ -79,28 +75,6 @@ public class UsuarioController {
 
         return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
     }
-
-
-    /*
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
-        Usuario usuario = usuarioService.findByUsername(loginRequest.getUsername());
-
-        if (usuario != null && usuario.getPassword().equals(loginRequest.getPassword())) {
-            if (usuario.getEstado() == 0) {
-                return ResponseEntity.status(403).body("El usuario está inactivo");
-            }
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Login exitoso");
-            response.put("rol", usuario.getRol());
-            response.put("nombre", usuario.getNombre());
-            response.put("empresaId", usuario.getEmpresaId());
-
-            return ResponseEntity.ok().body(response);
-        } else {
-            return ResponseEntity.status(401).body("Credenciales inválidas");
-        }
-    }*/
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
         Usuario usuario = usuarioService.findBytelefono((loginRequest.getTelefono()));

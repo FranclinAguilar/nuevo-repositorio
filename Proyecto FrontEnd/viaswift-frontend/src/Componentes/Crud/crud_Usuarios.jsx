@@ -24,7 +24,7 @@ const Crud_Usuarios = () => {
     navigate('/registro_usuarios', { state: { usuario: usuario } });
   };
 
-
+  //Consulta
   const listar_usuarios = async () => {
     setCargando(true);
     setError(null);
@@ -42,9 +42,9 @@ const Crud_Usuarios = () => {
 
   //eliminar_usuarios---------------------------
   const Eliminar = async (nombre, id) => {
-    if (window.confirm(`¿Estás seguro de que deseas eliminar al usuario ${nombre}?`)) {
+    if (window.confirm('¿Estás seguro de que deseas eliminar al usuario ' + nombre + '?')) {
       try {
-        const respuesta = await conector.delete(`/delete/${id}`);
+        const respuesta = await conector.delete('/delete/' + id);
         if (respuesta.status === 200) {
           listar_usuarios();
           alert('Usuario eliminado exitosamente');

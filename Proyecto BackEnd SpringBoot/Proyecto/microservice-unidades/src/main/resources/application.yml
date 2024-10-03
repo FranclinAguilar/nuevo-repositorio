@@ -1,15 +1,15 @@
 server:
-  port: 8090
+  port: 9090
 
 spring:
   application:
-    name: msvc-usuarios
+    name: msvc-unidades
   config:
     import: optional:configserver:http://localhost:8888
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/usuariosDB
+    url: jdbc:mysql://localhost:3306/unidadesDB
     username: root
     password:
   jpa:

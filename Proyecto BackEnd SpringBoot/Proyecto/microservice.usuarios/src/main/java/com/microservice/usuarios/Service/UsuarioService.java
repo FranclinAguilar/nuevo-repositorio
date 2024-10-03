@@ -13,27 +13,34 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioService {
 
+    //inyectamos el repositorio
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     public Usuario findBytelefono(String telefono){
         return usuarioRepository.findByTelefono(telefono);
     }
-    public Usuario findByUsername(String username) {
 
-        return usuarioRepository.findByUsername(username);
-    }
 
     public void saveUsuario(Usuario usuario) {
         usuarioRepository.save(usuario);
     }
+
+
+    public boolean existsByci(int ci){
+        return usuarioRepository.existsByci(ci);
+    }
+
     public boolean existsByEmail(String email) {
         return usuarioRepository.existsByEmail(email);
     }
 
-    public boolean existsByUsername(String username) {
-        return usuarioRepository.existsByUsername(username);
+    public boolean existsBytelefono(String telefono) {
+        return usuarioRepository.existsBytelefono(telefono);
     }
+
+
+
     public boolean deleteUsuarioById(Long id) {
         if (usuarioRepository.existsById(id)) {
             usuarioRepository.deleteById(id);
@@ -45,10 +52,6 @@ public class UsuarioService {
 
 
     // UsuarioService.java
-    public List<Usuario> findAllUsuarios() {
-        return usuarioRepository.findAll();
-    }
-
     public List<UsuarioDTO> getAllUsuarios() {
         // Obtener todos los usuarios desde la base de datos
         List<Usuario> usuarios = usuarioRepository.findAll();
@@ -100,7 +103,7 @@ public class UsuarioService {
             usuarioRepository.save(usuario); // Guarda los cambios
             return true;
         }
-        return false; // Si no se encontró el usuario
+        return false;
     }
 
 

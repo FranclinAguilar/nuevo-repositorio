@@ -25,6 +25,7 @@
     <module>microservice.eureka</module>
     <module>microservice.config</module>
     <module>microservice.usuarios</module>
+    <module>microservice-unidades</module>
   </modules>
 
 
