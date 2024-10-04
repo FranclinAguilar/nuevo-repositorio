@@ -58,7 +58,7 @@ public class UsuarioService {
 
         // Convertir la lista de entidades Usuario a DTO
         List<UsuarioDTO> usuarioDTOs = usuarios.stream()
-                .map(this::convertToDTO) // Usamos un método de conversión
+                .map(this::convertToDTO) //convertimos la entidad
                 .collect(Collectors.toList());
 
         return usuarioDTOs;
