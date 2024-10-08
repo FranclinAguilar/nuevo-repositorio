@@ -17,11 +17,11 @@ const InicioCliente = () => {
     const navigate = useNavigate();
 
     const manejarSeleccionOrigen = (ciudad) => {
-        setCiudadOrigen(ciudad);
+        setCiudadOrigen(" " + ciudad);
     };
 
     const manejarSeleccionDestino = (ciudad) => {
-        setCiudadDestino(ciudad);
+        setCiudadDestino(" " + ciudad);
     };
 
     const verificar = () => {
@@ -36,39 +36,43 @@ const InicioCliente = () => {
 
     return (
         <div className='fondo'>
-            <div className="dos_tarjetas">
-                <div>
-                    <Tarjeta
-                        Titulo=""
-                        Contenido={
-                            <CarouselComponent
-                                ciudades={ciudadesIniciales}
-                                ciudadSeleccionada={manejarSeleccionOrigen}
-                            />
-                        }
-                    />
-                    <p>Ciudad origen:
-                        {ciudadOrigen || ''}
-                    </p>
+            <div className='contenedor_inicio'>
+                <h1>Viajes rápidos</h1>
+                <div className="dos_tarjetas">
+                    <div>
+                        <Tarjeta
+                            Titulo=""
+                            Contenido={
+                                <CarouselComponent
+                                    ciudades={ciudadesIniciales}
+                                    ciudadSeleccionada={manejarSeleccionOrigen}
+                                />
+                            }
+                        />
+                        <p className='ciudad-info'> Ciudad origen:
+                            {ciudadOrigen || ''}
+                        </p>
+                    </div>
+                    <div>
+                        <Tarjeta
+                            Titulo=""
+                            Contenido={
+                                <CarouselComponent
+                                    ciudades={ciudadesIniciales}
+                                    ciudadSeleccionada={manejarSeleccionDestino}
+                                />
+                            }
+                        />
+                        <p className='ciudad-info'>Ciudad destino:
+                            {ciudadDestino || ''}
+                        </p>
+                        
+                    </div>
                 </div>
-                <div>
-                    <Tarjeta
-                        Titulo=""
-                        Contenido={
-                            <CarouselComponent
-                                ciudades={ciudadesIniciales}
-                                ciudadSeleccionada={manejarSeleccionDestino}
-                            />
-                        }
-                    />
-                    <p>Ciudad destino:
-                        {ciudadDestino || ''}
-                    </p>
-                </div>
-            </div>
 
-            <div className="text-center">
-                <button className="boton" onClick={verificar}>Ver Vehículos Disponibles</button>
+                <div className="text-center">
+                    <button className="boton-vehi" onClick={verificar}>Ver Vehículos Disponibles</button>
+                </div>
             </div>
 
         </div>

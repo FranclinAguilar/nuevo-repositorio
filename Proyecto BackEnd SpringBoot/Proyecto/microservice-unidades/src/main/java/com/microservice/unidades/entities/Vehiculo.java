@@ -14,6 +14,13 @@ public class Vehiculo {
 
     private String marca;
 
+    private int modelo;
+
+    private int capacidad;
+
+    private int placa;
+
+
 
     @OneToOne
     @JoinColumn(name = "id_conductor", nullable = false)

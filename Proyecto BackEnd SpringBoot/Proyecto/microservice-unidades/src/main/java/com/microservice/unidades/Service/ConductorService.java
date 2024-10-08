@@ -2,14 +2,13 @@ package com.microservice.unidades.Service;
 
 import com.microservice.unidades.Repository.ConductorRepository;
 import com.microservice.unidades.dto.ConductorDTO;
+import com.microservice.unidades.dto.VehiculoDTO;
 import com.microservice.unidades.entities.Conductor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-
+import java.util.stream.Collectors;
 @Service
 public class ConductorService {
 
@@ -24,29 +23,34 @@ public class ConductorService {
         conductorRepository.save(conductor);
     }
 
-    //Servicio para listar
+    public boolean DeleteConductorById(Long id){
+        if(conductorRepository.existsById(id)){
+            conductorRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 
-//    public List<ConductorDTO> findAllConductorDTOs() {
-//        // Obtener todos los conductores desde la base de datos
-//        List<Conductor> conductores = conductorRepository.findAll();
-//
-//        // Convertir la lista de entidades Conductor a DTO
-//        return conductores.stream()
-//                .map(conductor -> ConductorDTO.builder()
-//                        .id(conductor.getId())
-//                        .nombre(conductor.getNombre())
-//                        .build())
-//                .collect(toList());
-//    }
 
-    public List<ConductorDTO> findAllConductorDTOs(){
+
+    public List<ConductorDTO> findAllConductorAndVehiculos(){
         List<Conductor> conductores = conductorRepository.findAll();
+
         return conductores.stream()
                 .map(conductor -> ConductorDTO.builder()
                         .id(conductor.getId())
                         .nombre(conductor.getNombre())
-                        .build())
-                .collect(toList());
-    }
+                        .apellidos(conductor.getApellidos())
+                        .licencia(conductor.getLicencia())
+                        .telefono(conductor.getTelefono())
+                        .vehiculo(conductor.getVehiculo() != null ? VehiculoDTO.builder()
+                                .id(conductor.getVehiculo().getId())
+                                .marca(conductor.getVehiculo().getMarca())
+                                .placa(conductor.getVehiculo().getPlaca())
+                                .capacidad(conductor.getVehiculo().getCapacidad())
 
+                                .build() : null)
+                        .build())
+                .collect(Collectors.toList());
+    }
 }

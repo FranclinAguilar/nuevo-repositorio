@@ -51,7 +51,7 @@ public class UsuarioService {
 
 
 
-    // UsuarioService.java
+    // Servicio para consultar todos los usuarios a DTO Data Object Transf
     public List<UsuarioDTO> getAllUsuarios() {
         // Obtener todos los usuarios desde la base de datos
         List<Usuario> usuarios = usuarioRepository.findAll();

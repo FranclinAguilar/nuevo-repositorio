@@ -75,6 +75,10 @@ public class UsuarioController {
 
         return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
     }
+
+
+
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
         Usuario usuario = usuarioService.findBytelefono((loginRequest.getTelefono()));
