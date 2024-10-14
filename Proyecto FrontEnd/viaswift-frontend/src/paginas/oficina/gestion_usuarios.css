@@ -1,9 +1,11 @@
 .fondo_gestion_usuarios {
-    background-color: #cedeff; /* Color de fondo */
+
+    background-color: #000000;
     height: 100vh; /* Ocupa toda la altura de la ventana */
     overflow: auto;  /* Coloca los hijos en columna (opcional según tu diseño) */
-    width: auto;
+    width: 100%; /* Ocupará el 100% del ancho de la ventana */
 }
+
 
 .lista_usuarios {
     width: 100%;

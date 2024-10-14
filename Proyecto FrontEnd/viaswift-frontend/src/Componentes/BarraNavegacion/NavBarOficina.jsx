@@ -22,15 +22,22 @@ function NavBarOficina(args) {
 
     return (
         <>
-            <Navbar style={{ backgroundColor: '#2D394B' }} dark expand="md">
+            <Navbar style={{ backgroundColor: '#000000' }} dark expand="md">
                 <NavbarBrand style={{ userSelect: 'none' }}>
-                <img
-                    src={`${process.env.PUBLIC_URL}/images/logo.png`}
-                    alt="ViaSvel Logo"
-                    style={{ height: '30px' }} // Ajusta el tamaño según sea necesario
-                />
+                    <img
+                        src={`${process.env.PUBLIC_URL}/images/logo.png`}
+                        alt="ViaSvel Logo"
+                        style={{ height: '30px' }} // Ajusta el tamaño según sea necesario
+                    />
                 </NavbarBrand>
-                <NavbarToggler onClick={toggle} />
+                <NavbarToggler
+                    onClick={toggle}
+                    style={{
+                        borderColor: 'transparent',
+                        backgroundColor: '#1DB954',
+                        color: '#1DB954',
+                    }}
+                />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="me-auto" navbar>
                         <NavItem>

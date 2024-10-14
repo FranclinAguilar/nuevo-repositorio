@@ -1,0 +1,13 @@
+
+.fondo_autenticacion{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/public/images/fondo_login.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

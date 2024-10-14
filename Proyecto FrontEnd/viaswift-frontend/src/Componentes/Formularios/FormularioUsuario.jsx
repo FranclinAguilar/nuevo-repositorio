@@ -4,8 +4,6 @@ import conector from '../../Servicios/conector';
 import './FormularioUsuario.css';
 
 const FormularioUsuario = () => {
-
-    //location
     const location = useLocation();
     const usuarioSeleccionado = location.state?.usuario || null;
     const [nombre, setNombre] = useState('');

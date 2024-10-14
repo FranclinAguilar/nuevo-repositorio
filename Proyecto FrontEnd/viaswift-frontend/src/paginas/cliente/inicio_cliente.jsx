@@ -37,7 +37,6 @@ const InicioCliente = () => {
     return (
         <div className='fondo'>
             <div className='contenedor_inicio'>
-                <h1>Viajes rápidos</h1>
                 <div className="dos_tarjetas">
                     <div>
                         <Tarjeta
@@ -73,6 +72,13 @@ const InicioCliente = () => {
                 <div className="text-center">
                     <button className="boton-vehi" onClick={verificar}>Ver Vehículos Disponibles</button>
                 </div>
+                <div className='contenedor_inicio2'>
+                <h1>aquí irá contenido informativo de la app</h1>
+
+            </div>
+            </div>
+            <div className='contenedor_inicio1'>
+                <h1>aquí irá contenido sobre viajes, recomendaciones etc</h1>
             </div>
 
         </div>

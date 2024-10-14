@@ -1,4 +1,26 @@
 .fondo_oficina{
-    background-Color: #cedeff;
+    background-Color: #000000;
+    background-position: center;
+    background-size: cover;
+    display: flex;
     height: 100vh;
+    flex-wrap: wrap;
+    
+}
+.contenedor_inicio_oficina{
+    background-color: #151515;
+    flex: 0 0 60%;
+    height: 660px;
+    padding: 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+.contenedor_inicio_oficina1{
+    background-color: #151515;
+    flex: 0 0 35%;
+    height: 660px;
+    padding: 15px;
+    border-radius: 5px;
+    margin-right: 10px;
 }

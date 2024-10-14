@@ -1,14 +1,13 @@
-.Tarjeta{
-    background-color: #cedeff ;
+.Tarjeta {
+    background-color: rgba(255, 255, 255, 0);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 3px solid #CDD7F0; 
-    border-radius: 5px;
-    backdrop-filter: blur(10px); 
-    border-radius: 10px; 
-
+    border: 1px solid rgba(3, 207, 0, 0.35); 
+    border-radius: 10px;
+    padding: 10px; 
+    overflow: hidden; 
 }
 .Tarjeta-Titulo{
     text-align: center;

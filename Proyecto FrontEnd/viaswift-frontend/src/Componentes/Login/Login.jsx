@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import conector from '../../Servicios/conector';
 import { useNavigate } from 'react-router-dom';
@@ -23,9 +22,12 @@ const Login = () => {
     try {
       const { data, status } = await conector.post('/login', { telefono: telefono, password: contraseña });
       if (status === 200) {
+        // Almacenar el ID del usuario y el ID de la empresa en localStorage
+        localStorage.setItem('usuarioId', data.usuarioId);  // Asumiendo que el ID del usuario se llama 'usuarioId'
         localStorage.setItem('empresaId', data.empresaId);
+        
+        // Redirigir según el rol
         navigate(data.rol === 'Pasajero' ? '/inicio_cliente' : '/inicio_oficina');
-
       }
     } catch (err) {
       setError('Usuario o contraseña incorrectos');
@@ -36,14 +38,12 @@ const Login = () => {
 
   return (
     <div className='contenedor_login'>
-
-      <h1 className='ViaSvel'>ViaSvel</h1>
-      <br /> 
+      <br />
       <form onSubmit={manejarEnvio} className="login-form">
-      <h2 className='iniciosesion'>Iniciar sesión</h2><br />
+        <h2 className='iniciosesion'>Iniciar sesión</h2><br />
         <div className="form-group">
-          <label htmlFor="usuario">Nombre de usuario</label>
           <input
+            className='input-login'
             type="text"
             id="usuario"
             placeholder="Número de teléfono"
@@ -53,8 +53,8 @@ const Login = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="contraseña">Contraseña</label>
           <input
+            className='input-login'
             type="password"
             id="contraseña"
             placeholder="Contraseña"
@@ -64,9 +64,12 @@ const Login = () => {
           />
         </div>
         {error && <div className="error-alert">{error}</div>}
-        <button type="submit" disabled={cargando} className="submit-button">
-          {cargando ? 'Iniciando sesión...' : 'Iniciar sesión'}
-        </button>
+        <div className='contenedor_boton_login'>
+          <button type="submit" disabled={cargando} className="submit-button">
+            {cargando ? 'Iniciando sesión...' : 'Iniciar sesión'}
+          </button>
+        </div>
+        <br />
       </form>
     </div>
   );

@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Inicio_sesion from './Autenticacion/inicio_sesion';
 import Inicio_cliente from './paginas/cliente/inicio_cliente';
-import Inicio_empresas from './paginas/oficina/inicio_empresas';
 import Empresas_cliente from './paginas/cliente/empresas_cliente';
 import NavBarCliente from './Componentes/BarraNavegacion/NavBarCliente';
 import NavBarOficina from './Componentes/BarraNavegacion/NavBarOficina';
@@ -22,7 +21,6 @@ function App() {
 
           <Route element={<NavBarCliente />}>
             <Route path="inicio_cliente" element={<Inicio_cliente/>}/>
-            <Route path="inicio_empresas" element={<Inicio_empresas/>}/>
             <Route path="empresas_cliente" element={<Empresas_cliente/>}/>
           </Route>
           <Route element={<NavBarOficina />}>
