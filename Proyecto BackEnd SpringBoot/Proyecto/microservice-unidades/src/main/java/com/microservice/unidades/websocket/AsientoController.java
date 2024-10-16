@@ -1,12 +1,10 @@
 package com.microservice.unidades.websocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +24,19 @@ public class AsientoController {
         return asientoService.cambiarEstado(id);
     }
 
+    @PostMapping("/guardar_asientos")
+    public Asiento guardarAsiento(@RequestBody Asiento asiento) {
+        return asientoService.guardarAsiento(asiento);
+    }
+
+    //eliminar
+    @DeleteMapping("/eliminar_asientos")
+    public ResponseEntity<Void> eliminarAsientos() {
+        asientoService.eliminarAsientos();
+        return ResponseEntity.noContent().build(); // Devuelve un 204 No Content
+    }
+
+    //cambiar
     @MessageMapping("/cambiarEstado")
     @SendTo("/topic/asientos")
     public List<Asiento> cambiarEstadoWs(int id) {

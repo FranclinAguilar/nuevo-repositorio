@@ -1,6 +1,7 @@
 import React from 'react'
 import Asientos from '../../Componentes/vehiculo/Asientos';
 import Tarjeta from '../../Componentes/Tarjetas/Tarjeta';
+import UnidadEnCola from '../oficina/unidad_en_cola';
 const empresas_cliente = () => {
   return (
     <div className='fondo_oficina'>
@@ -12,7 +13,7 @@ const empresas_cliente = () => {
           />
           <Tarjeta
             Titulo={"Detalles de la Unidad"}
-            Contenido={"..."} // Pasar unidad seleccionada a UnidadEnCola
+            Contenido={<UnidadEnCola/>}
           />
         </div>
         <div className='dos_tarjetas'>

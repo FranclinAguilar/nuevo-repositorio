@@ -26,6 +26,7 @@
     <module>microservice.config</module>
     <module>microservice.usuarios</module>
     <module>microservice-unidades</module>
+    <module>microservice-reservas</module>
     <module>demo</module>
   </modules>
 

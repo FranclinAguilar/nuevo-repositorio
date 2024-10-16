@@ -14,7 +14,6 @@ const Asientos = () => {
       onConnect: () => {
         cliente_webSocket.subscribe('/topic/asientos', (mensaje_del_canal) => {
           const mensaje_recibido = JSON.parse(mensaje_del_canal.body);
-          // Actualiza el estado de los asientos con los datos recibidos
           setAsientosList(mensaje_recibido);
         });
       },
@@ -22,9 +21,6 @@ const Asientos = () => {
 
     cliente_webSocket.activate();
     setClient(cliente_webSocket); // Guardar el cliente en el estado
-
-
-
 
 
 

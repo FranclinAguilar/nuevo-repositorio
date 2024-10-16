@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class Asiento {
 
     @Id
-    private int id;
+    private Integer id;
     private String estado;
 }

@@ -36,6 +36,20 @@ public class UnidadController {
         return ResponseEntity.ok(conductorList);
     }
 
+
+
+
+    //buscar por su id
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findConductorById(@PathVariable Long id) {
+        ConductorDTO conductorDTO = conductorService.findConductorById(id);
+        if (conductorDTO != null) {
+            return ResponseEntity.ok(conductorDTO);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Conductor no encontrado");
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminarUnidad(@PathVariable Long id){
         boolean isRemoved = conductorService.DeleteConductorById(id);

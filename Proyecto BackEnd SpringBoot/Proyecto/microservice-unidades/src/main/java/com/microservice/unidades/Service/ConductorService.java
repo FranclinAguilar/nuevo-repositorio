@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 public class ConductorService {
@@ -23,6 +24,9 @@ public class ConductorService {
         conductorRepository.save(conductor);
     }
 
+
+    //eliminar conductor, como está tipo cascade
+    //elimina el vehículo también
     public boolean DeleteConductorById(Long id){
         if(conductorRepository.existsById(id)){
             conductorRepository.deleteById(id);
@@ -52,5 +56,32 @@ public class ConductorService {
                                 .build() : null)
                         .build())
                 .collect(Collectors.toList());
+    }
+
+
+
+
+    //buscar por su id
+
+    // Método para buscar conductor por ID
+    public ConductorDTO findConductorById(Long id) {
+        Optional<Conductor> conductorOptional = conductorRepository.findById(id);
+        if (conductorOptional.isPresent()) {
+            Conductor conductor = conductorOptional.get();
+            return ConductorDTO.builder()
+                    .id(conductor.getId())
+                    .nombre(conductor.getNombre())
+                    .apellidos(conductor.getApellidos())
+                    .licencia(conductor.getLicencia())
+                    .telefono(conductor.getTelefono())
+                    .vehiculo(conductor.getVehiculo() != null ? VehiculoDTO.builder()
+                            .id(conductor.getVehiculo().getId())
+                            .marca(conductor.getVehiculo().getMarca())
+                            .placa(conductor.getVehiculo().getPlaca())
+                            .capacidad(conductor.getVehiculo().getCapacidad())
+                            .build() : null)
+                    .build();
+        }
+        return null; //no olvidar lanzar excepción!
     }
 }

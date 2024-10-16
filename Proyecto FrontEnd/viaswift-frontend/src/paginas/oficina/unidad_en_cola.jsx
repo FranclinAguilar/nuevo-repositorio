@@ -1,31 +1,33 @@
 import React from 'react';
+import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
 
 const UnidadEnCola = ({ unidad }) => {
-  return (
-    <div>
-      <h3>Unidad en Cola:</h3>
-      {unidad ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Marca Vehículo</th>
-              <th>Capacidad Vehículo</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{unidad.nombre || 'N/A'}</td>
-              <td>{unidad.vehiculo ? unidad.vehiculo.marca : 'N/A'}</td>
-              <td>{unidad.vehiculo ? unidad.vehiculo.capacidad : 'N/A'}</td>
-            </tr>
-          </tbody>
-        </table>
-      ) : (
-        <p>No hay unidad seleccionada.</p> // Mensaje cuando no hay unidad
-      )}
-    </div>
-  );
+    if (!unidad) {
+        return <p>No hay unidad seleccionada.</p>;
+    }
+
+    return (
+        <Card className="mb-3">
+            <CardBody>
+                <CardTitle tag="h2">Detalles de la Unidad</CardTitle>
+                <CardText>
+                    <strong>Conductor:</strong> {unidad.nombre} {unidad.apellidos}
+                </CardText>
+                <CardText>
+                    <strong>Marca del Vehículo:</strong> {unidad.vehiculo?.marca}
+                </CardText>
+                <CardText>
+                    <strong>Capacidad:</strong> {unidad.vehiculo?.capacidad}
+                </CardText>
+                <CardText>
+                    <strong>Licencia:</strong> {unidad.licencia}
+                </CardText>
+                <CardText>
+                    <strong>Teléfono:</strong> {unidad.telefono}
+                </CardText>
+            </CardBody>
+        </Card>
+    );
 };
 
 export default UnidadEnCola;

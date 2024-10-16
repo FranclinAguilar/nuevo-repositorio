@@ -76,7 +76,7 @@
     }
 
     .fondo {
-        flex-direction: column; /* Apilar elementos en columna en móviles */
+        flex-direction: column; 
         align-items: center;
     }
 }

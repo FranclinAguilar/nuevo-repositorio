@@ -3,21 +3,20 @@
     grid-template-columns: repeat(3, 1fr);
     /* 3 columnas */
     gap: 10px;
-    /* Espacio entre los botones */
+
 }
 
 .button-grid button {
     width: 100%;
-    /* Para que los botones ocupen todo el ancho de la celda */
 }
 
 .btn-disponible {
     background-color: rgb(0, 243, 0);
-    /* Color verde claro */
     color: white;
     border: none;
     padding: 10px;
     cursor: pointer;
+
 }
 
 .btn-reservado {
