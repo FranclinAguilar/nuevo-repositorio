@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Client } from "@stomp/stompjs";
-import axios from "axios"; // Importar Axios
+import axios from "axios";
 import './Asientos.css';
 
 const Asientos = () => {

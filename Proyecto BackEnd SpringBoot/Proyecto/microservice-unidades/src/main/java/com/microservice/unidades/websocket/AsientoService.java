@@ -1,10 +1,13 @@
 package com.microservice.unidades.websocket;
 
+import com.microservice.unidades.Repository.ConductorRepository;
+import com.microservice.unidades.entities.Conductor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AsientoService {
@@ -15,6 +18,7 @@ public class AsientoService {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
+    private ConductorRepository conductorRepository;
 
     //lista de asientos
     public List<Asiento> obtenerAsientos() {
@@ -28,6 +32,8 @@ public class AsientoService {
         // Enviar la lista vacía a través del WebSocket
         List<Asiento> asientosVacios = asientoRepository.findAll(); // Debería estar vacío
         messagingTemplate.convertAndSend("/topic/asientos", asientosVacios); // Envía la lista vacía
+
+        messagingTemplate.convertAndSend("/topic/asientos", "vacio");
     }
 
 

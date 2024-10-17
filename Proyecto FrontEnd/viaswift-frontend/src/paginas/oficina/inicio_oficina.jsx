@@ -18,7 +18,7 @@ const InicioOficina = () => {
           />
           <Tarjeta
             Titulo="Unidades en cola"
-            Contenido={<UnidadEnCola unidad={unidadSeleccionada} />}
+            Contenido={<UnidadEnCola/>}
           />
         </div>
         <div className='dos_tarjetas'>

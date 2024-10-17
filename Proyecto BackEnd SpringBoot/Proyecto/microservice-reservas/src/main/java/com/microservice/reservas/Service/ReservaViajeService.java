@@ -2,15 +2,16 @@ package com.microservice.reservas.Service;
 
 import com.microservice.reservas.Repository.ReservaRepository;
 import com.microservice.reservas.Repository.ViajeRepository;
+import com.microservice.reservas.WebSockets.ViajeWebSocketController;
 import com.microservice.reservas.entities.Reserva;
 import com.microservice.reservas.entities.Viaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,8 @@ public class ReservaViajeService {
     @Autowired
     private ReservaRepository reservaRepository; // Inyección del repositorio de Reserva
 
+    @Autowired
+    private ViajeWebSocketController webSocketController;
     // Obtener todos los viajes
     public List<Viaje> findAllViajes() {
         return viajeRepository.findAll(); // Usamos viajeRepository aquí
@@ -33,6 +36,13 @@ public class ReservaViajeService {
         return viajeRepository.findById(id); // Usamos viajeRepository aquí
     }
 
+    /*obtener un viaje por su estado
+    public Optional<Viaje> findStatusByEstado(String estado){
+        return viajeRepository.findByStatus(estado);
+    }*/
+
+
+    // Guardar un viaje
     // Guardar un viaje
     public Viaje saveViaje(Viaje viaje) {
         Long lastId = viajeRepository.count();
@@ -42,8 +52,14 @@ public class ReservaViajeService {
         viaje.setNumViaje("viaje-" + formattedNumViaje); // Establecer el número de viaje formateado
 
         viaje.setFecha(LocalDate.now());
-        return viajeRepository.save(viaje);
+        Viaje viajeGuardado = viajeRepository.save(viaje);
+
+        // Enviar notificación de nuevo viaje a través del WebSocket
+        webSocketController.notificarNuevoViaje(viajeGuardado);
+
+        return viajeGuardado;
     }
+
 
 
 
