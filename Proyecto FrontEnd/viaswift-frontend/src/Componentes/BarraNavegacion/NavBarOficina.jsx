@@ -27,7 +27,7 @@ function NavBarOficina(args) {
                     <img
                         src={`${process.env.PUBLIC_URL}/images/logo.png`}
                         alt="ViaSvel Logo"
-                        style={{ height: '30px' }} // Ajusta el tamaño según sea necesario
+                        style={{ height: '30px' }}
                     />
                 </NavbarBrand>
                 <NavbarToggler

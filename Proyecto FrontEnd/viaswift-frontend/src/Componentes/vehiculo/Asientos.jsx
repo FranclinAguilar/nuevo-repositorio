@@ -90,7 +90,7 @@ const Asientos = () => {
               onClick={() => cambiarEstado(asiento.id)}
               className={asiento.estado === "disponible" ? 'btn-disponible' : 'btn-reservado'}
             >
-              {asiento.estado === "disponible" ? `Reservar Asiento ${asiento.id}` : `reservando...`}
+              {asiento.estado === "disponible" ? `Reservar Asiento ${asiento.id}` : `reservando..`}
             </button>
 
           ))}

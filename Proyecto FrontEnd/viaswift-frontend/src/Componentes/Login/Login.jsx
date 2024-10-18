@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 
 const Login = () => {
-  const [telefono, setUsuario] = useState('');
+  const [telefono, setTelefono] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(false);
@@ -14,47 +14,47 @@ const Login = () => {
     e.preventDefault();
     setError('');
     if (!telefono || !contraseña) {
-      return setError('Usuario y contraseña son obligatorios');
+      return setError('Número de teléfono y contraseña son obligatorios');
     }
 
     setCargando(true);
 
     try {
-      const { data, status } = await conector.post('/login', { telefono: telefono, password: contraseña });
+      const { data, status } = await conector.post('/login', { telefono, password: contraseña });
       if (status === 200) {
         // Almacenar el ID del usuario y el ID de la empresa en localStorage
         localStorage.setItem('usuarioId', data.usuarioId);  // Asumiendo que el ID del usuario se llama 'usuarioId'
         localStorage.setItem('empresaId', data.empresaId);
-        
+
         // Redirigir según el rol
         navigate(data.rol === 'Pasajero' ? '/inicio_cliente' : '/inicio_oficina');
       }
     } catch (err) {
-      setError('Usuario o contraseña incorrectos');
+      setError('Número de teléfono o contraseña incorrectos');
     } finally {
       setCargando(false);
     }
   };
 
   return (
-    <div className='contenedor_login'>
+    <div className='contenedor-login'>
       <br />
-      <form onSubmit={manejarEnvio} className="login-form">
-        <h2 className='iniciosesion'>Iniciar sesión</h2><br />
-        <div className="form-group">
+      <form onSubmit={manejarEnvio} className="formulario-login">
+        <h2 className='titulo-sesion'>Iniciar sesión</h2><br />
+        <div className="grupo-formulario">
           <input
-            className='input-login'
+            className='entrada-login'
             type="text"
-            id="usuario"
+            id="telefono"
             placeholder="Número de teléfono"
             value={telefono}
-            onChange={(e) => setUsuario(e.target.value)}
+            onChange={(e) => setTelefono(e.target.value)}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="grupo-formulario">
           <input
-            className='input-login'
+            className='entrada-login'
             type="password"
             id="contraseña"
             placeholder="Contraseña"
@@ -63,9 +63,9 @@ const Login = () => {
             required
           />
         </div>
-        {error && <div className="error-alert">{error}</div>}
-        <div className='contenedor_boton_login'>
-          <button type="submit" disabled={cargando} className="submit-button">
+        {error && <div className="alerta-error">{error}</div>}
+        <div className='contenedor-boton-login'>
+          <button type="submit" disabled={cargando} className="boton-enviar">
             {cargando ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
         </div>

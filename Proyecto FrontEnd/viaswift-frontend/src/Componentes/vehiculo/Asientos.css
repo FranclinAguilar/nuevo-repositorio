@@ -1,29 +1,35 @@
 .button-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* 3 columnas */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 10px;
-
 }
 
 .button-grid button {
     width: 100%;
+    border-radius: 5px; 
+    font-size: 1rem; 
+    transition: background-color 0.3s ease; 
 }
 
 .btn-disponible {
-    background-color: rgb(0, 243, 0);
+    background-color: #1db954; 
     color: white;
     border: none;
     padding: 10px;
     cursor: pointer;
+}
 
+.btn-disponible:hover {
+    background-color: #16b43d; 
 }
 
 .btn-reservado {
-    background-color: rgb(0, 189, 252);
-    /* Color celeste */
+    background-color: #191414; 
     color: white;
     border: none;
     padding: 10px;
-    cursor: pointer;
+}
+
+.btn-reservado:hover {
+    background-color: #121212;
 }

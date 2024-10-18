@@ -33,7 +33,7 @@ public class AsientoController {
     @DeleteMapping("/eliminar_asientos")
     public ResponseEntity<Void> eliminarAsientos() {
         asientoService.eliminarAsientos();
-        return ResponseEntity.noContent().build(); // Devuelve un 204 No Content
+        return ResponseEntity.noContent().build();
     }
 
     //cambiar

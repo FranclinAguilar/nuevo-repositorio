@@ -73,7 +73,7 @@ const ListaConductores = ({ onSelectConductor }) => {
 
     return (
         <div>
-            <Button color="primary" onClick={obtenerConductores} className="mb-3">
+            <Button color="success" onClick={obtenerConductores} className="mb-3">
                 Cargar Unidades
             </Button>
 
@@ -98,7 +98,7 @@ const ListaConductores = ({ onSelectConductor }) => {
                     ))}
                 </ListGroup>
             ) : (
-                !loading && <p>No hay conductores disponibles.</p>
+                !loading && <p>Busca Unidades para el Viaje</p>
             )}
         </div>
     );

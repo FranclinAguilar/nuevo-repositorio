@@ -54,8 +54,7 @@ function NavBarCliente(args) {
                 Opciones
               </DropdownToggle>
               <DropdownMenu style={{ backgroundColor: '#000000' }} dark expand="md" end>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
+                <DropdownItem>MisViajes</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href='/'>cerrar sesión</DropdownItem>
               </DropdownMenu>

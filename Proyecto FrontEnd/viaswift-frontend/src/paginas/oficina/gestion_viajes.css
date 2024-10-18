@@ -1,6 +1,6 @@
 .fondo_gestion_viajes{
-    background-image: url("/public/images/fondo_viajes.webp");
+    background-color: #000000;
+    height: 100vh;
     background-position: center;
     background-size: cover;
-    height: 100vh;
 }

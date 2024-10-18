@@ -65,22 +65,28 @@ const InicioCliente = () => {
                         <p className='ciudad-info'>Ciudad destino:
                             {ciudadDestino || ''}
                         </p>
-                        
                     </div>
                 </div>
 
-                <div className="text-center">
-                    <button className="boton-vehi" onClick={verificar}>Ver Vehículos Disponibles</button>
+                <div className="dos_tarjetas">
+                    <button onClick={verificar}>Ver Vehículos Disponibles</button>
                 </div>
-                <div className='contenedor_inicio2'>
-                <h1>aquí irá contenido informativo de la app</h1>
-
-            </div>
+                <br />
+                <div className='tarjeta'>
+                    <Tarjeta
+                        Titulo="contenido rutas de acuerdo a su historial"
+                        Contenido={ ""}
+                    />
+                </div>
             </div>
             <div className='contenedor_inicio1'>
-                <h1>aquí irá contenido sobre viajes, recomendaciones etc</h1>
+            <div className='tarjeta'>
+                    <Tarjeta
+                        Titulo="contenido informaciones"
+                        Contenido={ ""}
+                    />
+                </div>
             </div>
-
         </div>
     );
 };

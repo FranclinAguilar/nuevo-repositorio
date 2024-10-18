@@ -2,6 +2,7 @@ import React from 'react'
 import Asientos from '../../Componentes/vehiculo/Asientos';
 import Tarjeta from '../../Componentes/Tarjetas/Tarjeta';
 import UnidadEnCola from '../oficina/unidad_en_cola';
+import './empresas_cliente.css'
 const empresas_cliente = () => {
   return (
     <div className='fondo_oficina'>
@@ -28,7 +29,7 @@ const empresas_cliente = () => {
           Titulo={"Detalles de su ticket"}
           Contenido={"boleto"}
         />
-        <button>confirmar reserva</button>
+        <button className='dos_tarjetas'>confirmar reserva</button>
 
       </div>
     </div>

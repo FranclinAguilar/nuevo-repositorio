@@ -1,59 +1,62 @@
+.fondo {
+    background-color: #191414; 
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh; 
+    padding: 8px;
+}
+
+.contenedor_inicio {
+    background-color: #1db954; 
+    flex: 0 0 60%;
+    height: 660px; 
+    padding: 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-left: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+}
+
+.contenedor_inicio1 {
+    background-color: #1db954;
+    flex: 0 0 35%;
+    height: 660px; 
+    padding: 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+}
+
 .ciudad-info {
-    border: 1.5px solid #1db954;
+    border: 1.5px solid #1db954; 
     backdrop-filter: blur(20px);
     border-radius: 15px;
-    color: #f5f5f5;
+    color: #f5f5f5; 
     font-size: 16px;
     margin: 10px 0;
     padding: 4px;
 }
 
-.fondo {
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 100vh;
-    background-color: #000000;
-    padding: 8px;
-}
-
 .boton-vehi {
-    background-color: #ffffff;
-    color: #000000;
-    font-family: "roboto", sans-serif;
+    background-color: #ffffff; 
+    color: #000000; 
+    font-family: "Roboto", sans-serif;
     font-weight: bold;
-    border: 2px solid #1db954;
+    border: 2px solid #1db954; 
     border-radius: 30px;
     font-size: 15px;
     cursor: pointer;
     width: 250px;
     height: 40px;
+    transition: background-color 0.3s ease; 
 }
 
-.boton-vehi:hover:not(:disabled) {
-    background-color: #00000002;
+.boton-vehi:hover {
+    background-color: rgba(29, 185, 84, 0.2); 
 }
 
-.contenedor_inicio {
-    background-color: #151515;
-    flex: 0 0 68%;
-    height: 660px;
-    padding: 15px;
-    border-radius: 5px;
-    margin-right: 15px;
-    margin-left: 5px;
-    
-}
-
-.contenedor_inicio1 {
-    background-color: #151515;
-    flex: 0 0 30%;
-    min-height: 100px;
-    height: 660px;
-    padding: 5px;
-    border-radius: 5px;
-}
 .contenedor_inicio2 {
-    background-color: #202020;
+    background-color: #202020; 
     flex: 0 0 25%;
     min-height: 100px;
     height: 200px;
@@ -62,6 +65,10 @@
     border-radius: 5px;
 }
 
+h1 {
+    color: #1db954; 
+    text-align: center; 
+}
 
 @media (max-width: 600px) {
     .contenedor_inicio,
@@ -72,7 +79,6 @@
         margin-left: 0;
         width: 100%;
         margin-top: 20px;
-
     }
 
     .fondo {
