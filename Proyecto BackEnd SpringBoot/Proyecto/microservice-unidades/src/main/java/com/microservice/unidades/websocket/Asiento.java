@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 public class Asiento {
-
     @Id
     private Integer id;
     private String estado;
+    private Integer id_usuario; // Campo para almacenar el ID del usuario que reservó el asiento
 }

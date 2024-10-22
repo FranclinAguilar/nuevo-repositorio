@@ -1,35 +1,17 @@
-.button-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
+.asientos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
 }
 
-.button-grid button {
-    width: 100%;
-    border-radius: 5px; 
-    font-size: 1rem; 
-    transition: background-color 0.3s ease; 
+.asiento {
+    width: calc(33.33% - 10px);
+    text-align: center;
 }
 
-.btn-disponible {
-    background-color: #1db954; 
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.btn-disponible:hover {
-    background-color: #16b43d; 
-}
-
-.btn-reservado {
-    background-color: #191414; 
-    color: white;
-    border: none;
-    padding: 10px;
-}
-
-.btn-reservado:hover {
-    background-color: #121212;
+@media (max-width: 768px) {
+    .asiento {
+        width: calc(50% - 10px);
+    }
 }

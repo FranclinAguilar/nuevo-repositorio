@@ -20,12 +20,46 @@ public class AsientoService {
 
     private ConductorRepository conductorRepository;
 
-    //lista de asientos
-    public List<Asiento> obtenerAsientos() {
+    public List<Asiento> obtener_asientos() {
         return asientoRepository.findAll();
     }
 
-    // Eliminar asientos
+    public Asiento cambiar_estado(int id, int idUsuario) {
+        Optional<Asiento> optionalAsiento = asientoRepository.findById(id);
+        if (optionalAsiento.isPresent()) {
+            Asiento asiento = optionalAsiento.get();
+
+            if (asiento.getEstado().equals("disponible")) {
+                asiento.setEstado("no disponible");
+                asiento.setId_usuario(idUsuario);
+            } else if (asiento.getEstado().equals("no disponible") && asiento.getId_usuario() == idUsuario) {
+                asiento.setEstado("disponible");
+                asiento.setId_usuario(null);
+            }
+            asientoRepository.save(asiento);
+            messagingTemplate.convertAndSend("/topic/asientos", obtener_asientos());
+            return asiento;
+        } else {
+            throw new RuntimeException("Asiento no encontrado"); // O lanzar una excepción personalizada
+        }
+    }
+
+
+    /*public Asiento cambiarEstado(int id) {
+        Asiento asiento = asientoRepository.findById(id);
+        if (asiento.getEstado().equals("disponible")) {
+            asiento.setEstado("no disponible");
+        } else if (asiento.getEstado().equals("no disponible")) {
+            asiento.setEstado("disponible");
+        }
+        asientoRepository.save(asiento);
+
+        // Envía la actualización a todos los clientes suscritos al WebSocket
+        messagingTemplate.convertAndSend("/topic/asientos", obtenerAsientos());
+        return asiento;
+
+
+    /*liminar asientos
     public void eliminarAsientos() {
         asientoRepository.deleteAll(); // Elimina todos los asientos
 
@@ -61,5 +95,6 @@ public class AsientoService {
         // Envía la actualización a todos los clientes suscritos al WebSocket
         messagingTemplate.convertAndSend("/topic/asientos", obtenerAsientos());
         return asiento;
+    }*/
+
     }
-}

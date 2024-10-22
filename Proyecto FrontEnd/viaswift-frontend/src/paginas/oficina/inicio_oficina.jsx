@@ -8,6 +8,16 @@ import Asientos from '../../Componentes/vehiculo/Asientos';
 const InicioOficina = () => {
   const [unidadSeleccionada, setUnidadSeleccionada] = useState(null);
 
+  const iniciarViaje = () => {
+    const idUsuario = localStorage.getItem("usuarioId");
+    console.log(localStorage.getItem("empresaId"))
+    console.log(localStorage.getItem("usuarioId"))
+    if (idUsuario) {
+      alert("ID del usuario: " + idUsuario);
+    } else {
+      alert("ID del usuario no encontrado");
+    }
+  };
   return (
     <div className='fondo_oficina'>
       <div className='contenedor_inicio_oficina'>
@@ -23,7 +33,9 @@ const InicioOficina = () => {
         </div>
         <div className='dos_tarjetas'>
           <div>
-            <button>Inicio de Viaje</button>
+          <button onClick={iniciarViaje}>
+              Inicio de Viaje
+            </button>
             <button>Reservar</button>
           </div>
         </div>

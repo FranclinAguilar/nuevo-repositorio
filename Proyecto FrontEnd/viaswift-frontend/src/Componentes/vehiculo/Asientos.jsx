@@ -1,77 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import axios from "axios";
-import './Asientos.css';
+import './Asientos.css'; // Asegúrate de que el archivo CSS esté importado
 
 const Asientos = () => {
-  const [asientosList, setAsientosList] = useState([]);
-  const [client, setClient] = useState(null);
+  const [asientos, setAsientos] = useState([]);
 
-  // Conexión al websocket y suscripción al canal para recibir actualizaciones en tiempo real
   useEffect(() => {
     const cliente_webSocket = new Client({
       brokerURL: "ws://localhost:9090/asientos",
       onConnect: () => {
         cliente_webSocket.subscribe('/topic/asientos', (mensaje_del_canal) => {
           const mensaje_recibido = JSON.parse(mensaje_del_canal.body);
-          setAsientosList(mensaje_recibido);
+          setAsientos(mensaje_recibido);
         });
       },
     });
 
     cliente_webSocket.activate();
-    setClient(cliente_webSocket); // Guardar el cliente en el estado
 
-
-
-    // Obtener la lista de asientos, también sus estados al iniciar el componente
     const obtenerAsientos = async () => {
       try {
         const respuesta = await axios.get("http://localhost:9090/asientos_list");
-        setAsientosList(respuesta.data); // Solo se establece data si la respuesta es exitosa
+        setAsientos(respuesta.data);
       } catch (error) {
-        console.error('Error al obtener los asientos:', error.message); // Manejar errores si no es OK
+        console.error('Error al obtener los asientos:', error.message);
       }
     };
 
     obtenerAsientos();
 
     return () => {
-      if (client) {
-        client.deactivate();
-      }
+      cliente_webSocket.deactivate();
     };
   }, []);
 
-  //-------------------------------------------------------------------------------------------//
-
   const cambiarEstado = async (id) => {
+    const idUser = localStorage.getItem("usuarioId");
+    if (!idUser) {
+      alert("No se ha encontrado el ID del usuario.");
+      return;
+    }
+
+    alert("Reservando Asiento número: " + id);
+
     try {
-      const respuesta = await axios.put('http://localhost:9090/asientos_id/' + id);
-      const updatedAsiento = respuesta.data;
-
-      //console.log(`Estado del asiento ${id} cambiado`, updatedAsiento);
-
-      // Actualiza el estado local con el asiento actualizado
-      setAsientosList((prevAsientos) =>
+      const respuesta = await axios.put(`http://localhost:9090/asientos_id/${id}/${idUser}`);
+      const AsientoObtenido = respuesta.data;
+      setAsientos((prevAsientos) =>
         prevAsientos.map(asiento =>
-          asiento.id === updatedAsiento.id ? updatedAsiento : asiento
+          asiento.id === AsientoObtenido.id ? AsientoObtenido : asiento
         )
       );
-
-      // Enviar el nuevo estado a través de WebSocket solo si el cliente está conectado
-      if (client && client.connected) {
-        try {
-          client.publish({
-            destination: "/app/cambiarEstado",
-            body: JSON.stringify(updatedAsiento),
-          });
-        } catch (error) {
-          console.error("Error al publicar el mensaje:", error);
-        }
-      } else {
-        console.error("El cliente STOMP no está conectado.");
-      }
     } catch (error) {
       console.error('Error al cambiar el estado del asiento:', error.message);
     }
@@ -80,25 +60,19 @@ const Asientos = () => {
   return (
     <div>
       <h1>Estados de los Asientos</h1>
-      {asientosList.length === 0 ? (
-        <p>No hay asientos disponibles.</p>
-      ) : (
-        <div className="button-grid">
-          {asientosList.map(asiento => (
-            <button
-              key={asiento.id}
-              onClick={() => cambiarEstado(asiento.id)}
-              className={asiento.estado === "disponible" ? 'btn-disponible' : 'btn-reservado'}
-            >
-              {asiento.estado === "disponible" ? `Reservar Asiento ${asiento.id}` : `reservando..`}
+      <div className="asientos-grid">
+        {asientos.map(asiento => (
+          <div key={asiento.id} className="asiento">
+            <p>Asiento {asiento.id}</p>
+            <p>Estado: {asiento.estado}</p>
+            <button onClick={() => cambiarEstado(asiento.id)}>
+              {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
             </button>
-
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
-
 };
 
 export default Asientos;

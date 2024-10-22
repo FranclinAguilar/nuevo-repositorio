@@ -14,16 +14,17 @@ public class AsientoController {
     @Autowired
     private AsientoService asientoService;
 
-    @GetMapping("/asientos_list")
+   @GetMapping("/asientos_list")
     public List<Asiento> obtenerAsientos() {
-        return asientoService.obtenerAsientos();
+        return asientoService.obtener_asientos();
     }
 
-    @PutMapping("/asientos_id/{id}")
-    public Asiento cambiarEstado(@PathVariable int id) {
-        return asientoService.cambiarEstado(id);
+    @PutMapping("/asientos_id/{id}/{idUsuario}")
+    public Asiento cambiarEstado(@PathVariable int id, @PathVariable int idUsuario) {
+        return asientoService.cambiar_estado(id, idUsuario);
     }
 
+/*
     @PostMapping("/guardar_asientos")
     public Asiento guardarAsiento(@RequestBody Asiento asiento) {
         return asientoService.guardarAsiento(asiento);
@@ -42,5 +43,5 @@ public class AsientoController {
     public List<Asiento> cambiarEstadoWs(int id) {
         asientoService.cambiarEstado(id);
         return asientoService.obtenerAsientos(); // Envía la lista actualizada a todos los clientes
-    }
+    }*/
 }

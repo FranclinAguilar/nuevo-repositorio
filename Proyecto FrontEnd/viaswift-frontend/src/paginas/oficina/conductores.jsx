@@ -43,7 +43,8 @@ const ListaConductores = ({ onSelectConductor }) => {
         for (let i = 1; i <=capacidad; i++) {
             const nuevoAsiento = {
                 id: i,
-                estado: 'disponible'
+                estado: 'disponible',
+                id_usuario: null
             };
 
             try {

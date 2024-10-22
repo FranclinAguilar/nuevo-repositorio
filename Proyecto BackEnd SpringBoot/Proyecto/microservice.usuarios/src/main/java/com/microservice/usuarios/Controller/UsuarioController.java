@@ -2,6 +2,7 @@ package com.microservice.usuarios.Controller;
 
 import com.microservice.usuarios.Service.UsuarioService;
 import com.microservice.usuarios.dto.UsuarioDTO;
+import com.microservice.usuarios.dto.UsuarioDTOLogin;
 import com.microservice.usuarios.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -81,24 +82,27 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
-        Usuario usuario = usuarioService.findBytelefono((loginRequest.getTelefono()));
-        if (usuario != null && usuario.getPassword().equals(loginRequest.getPassword())){
+        Usuario usuario = usuarioService.findBytelefono(loginRequest.getTelefono());
 
-            if(usuario.getEstado() == 0){
-                return ResponseEntity.status(403).body("el usuario se encuentra inactivo");
+        if (usuario != null && usuario.getPassword().equals(loginRequest.getPassword())) {
+
+            if (usuario.getEstado() == 0) {
+                return ResponseEntity.status(403).body("El usuario se encuentra inactivo");
             }
-            Map<String, String> respuesta = new HashMap<>();
-            respuesta.put("message", "Login Exitoso");
-            respuesta.put("rol", usuario.getRol());
-            respuesta.put("nombre", usuario.getNombre());
-            respuesta.put("empresaId", usuario.getEmpresaId());
 
-            return ResponseEntity.ok().body(respuesta);
+            UsuarioDTOLogin usuarioDTO = new UsuarioDTOLogin();
+            usuarioDTO.setId(usuario.getId());
+            usuarioDTO.setNombre(usuario.getNombre());
+            usuarioDTO.setEmpresaId(usuario.getEmpresaId());
+            usuarioDTO.setRol(usuario.getRol());
+
+            return ResponseEntity.ok().body(usuarioDTO);
+
         } else {
             return ResponseEntity.status(401).body("Credenciales inválidas");
         }
-
     }
+
 
 }
 

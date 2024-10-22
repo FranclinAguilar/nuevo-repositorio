@@ -23,7 +23,7 @@ const Login = () => {
       const { data, status } = await conector.post('/login', { telefono, password: contraseña });
       if (status === 200) {
         // Almacenar el ID del usuario y el ID de la empresa en localStorage
-        localStorage.setItem('usuarioId', data.usuarioId);  // Asumiendo que el ID del usuario se llama 'usuarioId'
+        localStorage.setItem('usuarioId', data.id);  // Aquí accedes al 'id' del DTO
         localStorage.setItem('empresaId', data.empresaId);
 
         // Redirigir según el rol
