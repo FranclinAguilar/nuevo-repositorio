@@ -17,7 +17,7 @@ public class Reserva {
     private Long idReserva;
 
     private String numReserva;
-    private int asientos;
+    private String asientos;
     private double precio;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaHora;

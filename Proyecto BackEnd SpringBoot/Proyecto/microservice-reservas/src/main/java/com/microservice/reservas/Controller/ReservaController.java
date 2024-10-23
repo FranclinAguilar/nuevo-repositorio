@@ -24,9 +24,9 @@ public class ReservaController {
     public ResponseEntity<List<Viaje>> listarTodosLosViajes() {
         List<Viaje> viajes = reservaViajeService.findAllViajes();
         if (viajes.isEmpty()) {
-            return ResponseEntity.noContent().build(); // Si no hay viajes, retornamos 204 No Content
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(viajes); // Retorna la lista de viajes en formato JSON
+        return ResponseEntity.ok(viajes);
     }
 
     // Endpoint para listar un viaje por su ID

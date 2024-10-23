@@ -12,7 +12,7 @@ const UnidadEnCola = () => {
         try {
             const respuestaViaje = await axios.get("http://localhost:9100/api/viajes/all");
             const viajeAbordando = respuestaViaje.data.find(
-                (viaje) => viaje.estado === "abordando" && viaje.destino === "Tarija"
+                (viaje) => viaje.estado === "abordando"
             );
 
             if (viajeAbordando) {
@@ -30,7 +30,7 @@ const UnidadEnCola = () => {
         }
     };
 
-    const handleVerInfoUnidad = () => {
+    const VerInfoUnidad = () => {
         if (!mostrarInfoUnidad) {
             obtenerUnidadEnAbordaje();
         }
@@ -41,7 +41,7 @@ const UnidadEnCola = () => {
         <div className="unidad-en-cola">
             <h2>Detalles de la Unidad</h2>
             <button
-                onClick={handleVerInfoUnidad}
+                onClick={VerInfoUnidad}
                 className="btn-ver-info"
             >
                 {mostrarInfoUnidad ? "Ocultar Info de la Unidad" : "Ver Info de la Unidad"}
@@ -55,11 +55,11 @@ const UnidadEnCola = () => {
 
             {mostrarInfoUnidad && unidad && !loading ? (
                 <div className="info-unidad">
-                    <p className="info-item">Conductor: {unidad.conductor?.nombre} {unidad.conductor?.apellidos}</p>
-                    <p className="info-item">Marca del Vehículo: {unidad.vehiculo?.marca}</p>
-                    <p className="info-item">Capacidad: {unidad.vehiculo?.capacidad}</p>
-                    <p className="info-item">Licencia: {unidad.conductor?.licencia}</p>
-                    <p className="info-item">Teléfono: {unidad.conductor?.telefono}</p>
+                    <p className="info-item">Conductor: {unidad.nombre || "N/A"} {unidad.apellidos || "N/A"}</p>
+                    <p className="info-item">Marca del Vehículo: {unidad.vehiculo?.marca || "N/A"}</p>
+                    <p className="info-item">Capacidad: {unidad.vehiculo?.capacidad || "N/A"}</p>
+                    <p className="info-item">Licencia: {unidad.licencia || "N/A"}</p>
+                    <p className="info-item">Teléfono: {unidad.telefono || "N/A"}</p>
                 </div>
             ) : mostrarInfoUnidad && !loading ? (
                 <p>No hay unidades disponibles</p>

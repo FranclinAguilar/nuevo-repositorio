@@ -6,6 +6,24 @@ import './Asientos.css'; // Asegúrate de que el archivo CSS esté importado
 const Asientos = () => {
   const [asientos, setAsientos] = useState([]);
 
+  //añadir control de los asientos en caso de no reservar
+  const verificarReserva = async () => {
+    try {
+      const respuesta = await axios.get("http://localhost:9100/api/viajes")
+      const datos = respuesta.data;
+      if(datos.estado){
+        
+      }
+
+    } catch (error) {
+      
+    }
+
+  }
+
+
+
+
   useEffect(() => {
     const cliente_webSocket = new Client({
       brokerURL: "ws://localhost:9090/asientos",
