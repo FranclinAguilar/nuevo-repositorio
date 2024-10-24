@@ -81,8 +81,8 @@ const Asientos = () => {
       <div className="asientos-grid">
         {asientos.map(asiento => (
           <div key={asiento.id} className="asiento">
-            <p>Asiento {asiento.id}</p>
-            <p>Estado: {asiento.estado}</p>
+            <p className="asiento">Asiento {asiento.id}</p>
+
             <button onClick={() => cambiarEstado(asiento.id)}>
               {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
             </button>

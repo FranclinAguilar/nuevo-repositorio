@@ -57,9 +57,9 @@ public class AsientoService {
         // Envía la actualización a todos los clientes suscritos al WebSocket
         messagingTemplate.convertAndSend("/topic/asientos", obtenerAsientos());
         return asiento;
+*/
 
-
-    /*liminar asientos
+    //eliminar asientos
     public void eliminarAsientos() {
         asientoRepository.deleteAll(); // Elimina todos los asientos
 
@@ -81,7 +81,7 @@ public class AsientoService {
 
         return asientoGuardado;
     }
-
+/*
 
     public Asiento cambiarEstado(int id) {
         Asiento asiento = asientoRepository.findById(id).orElseThrow();

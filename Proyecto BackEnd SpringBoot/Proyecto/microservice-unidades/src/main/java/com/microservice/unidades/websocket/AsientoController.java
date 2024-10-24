@@ -24,7 +24,7 @@ public class AsientoController {
         return asientoService.cambiar_estado(id, idUsuario);
     }
 
-/*
+
     @PostMapping("/guardar_asientos")
     public Asiento guardarAsiento(@RequestBody Asiento asiento) {
         return asientoService.guardarAsiento(asiento);
@@ -36,7 +36,7 @@ public class AsientoController {
         asientoService.eliminarAsientos();
         return ResponseEntity.noContent().build();
     }
-
+/*
     //cambiar
     @MessageMapping("/cambiarEstado")
     @SendTo("/topic/asientos")

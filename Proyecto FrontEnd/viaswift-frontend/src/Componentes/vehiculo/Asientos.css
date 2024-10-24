@@ -3,6 +3,7 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+    align-content: center;
 }
 
 .asiento {
@@ -14,4 +15,7 @@
     .asiento {
         width: calc(50% - 10px);
     }
+}
+.asiento{
+    color: #fff;
 }

@@ -11,15 +11,9 @@ const ListaConductores = ({ onSelectConductor }) => {
     const obtenerConductores = async () => {
         setLoading(true);
         setError(null);
-        try {
-            await axios.delete('http://localhost:9090/eliminar_asientos')
-        } catch (error) {
-            console.error('Error al guardar el asiento:', error);
-        }
         
         
         
-        // Resetear error antes de la carga
         try {
             const respuesta = await conector_unidades.get('/all');
             setConductores(respuesta.data);
