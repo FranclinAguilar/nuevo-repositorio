@@ -24,6 +24,27 @@ public class AsientoService {
         return asientoRepository.findAll();
     }
 
+    public Asiento reservar_asiento(int id, int idUsuario){
+        Optional<Asiento> reserva_Asiento = asientoRepository.findById(id);
+        if (reserva_Asiento.isPresent()){
+            Asiento asiento = reserva_Asiento.get();
+            if(asiento.getEstado().equals("no disponible") && asiento.getId_usuario() == idUsuario){
+
+                asiento.setEstado("reservado");
+                asiento.setId_usuario(1);
+            } else if(asiento.getEstado().equals("reservado") && asiento.getId_usuario() == 1){
+                asiento.setEstado("disponible");
+                asiento.setId_usuario(null);
+            }
+            asientoRepository.save(asiento);
+            messagingTemplate.convertAndSend("/topic/asientos", obtener_asientos());
+            return asiento;
+        } else {
+            throw new RuntimeException("asiento no encontrado");
+        }
+    }
+
+
     public Asiento cambiar_estado(int id, int idUsuario) {
         Optional<Asiento> optionalAsiento = asientoRepository.findById(id);
         if (optionalAsiento.isPresent()) {

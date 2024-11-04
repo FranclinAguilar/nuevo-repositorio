@@ -28,6 +28,13 @@ public class ReservaController {
         }
         return ResponseEntity.ok(viajes);
     }
+    @GetMapping("/reservas/abordando")
+    public ResponseEntity<List<Reserva>> obtenerReservasAbordando() {
+        List<Reserva> reservasAbordando = reservaViajeService.findReservasByEstado("abordando");
+        return ResponseEntity.ok(reservasAbordando); // Siempre devuelve un 200 OK
+    }
+
+
 
     // Endpoint para listar un viaje por su ID
     @GetMapping("/{id}")
@@ -39,12 +46,53 @@ public class ReservaController {
         return ResponseEntity.notFound().build(); // Si no existe, retornamos 404 Not Found
     }
 
+
+
+    @PutMapping("/estado_reservas")
+    public ResponseEntity<List<Reserva>> cambiarEstadoReservas(
+            @RequestParam String estadoActual,
+            @RequestParam String nuevoEstado) {
+        List<Reserva> reservasActualizadas = reservaViajeService.actualizarEstadoReservas(estadoActual, nuevoEstado);
+        return ResponseEntity.ok(reservasActualizadas); // Devuelve la lista de reservas actualizadas
+    }
+
+    //esto cambia de reservado a anulado
+    @PutMapping("/reserva_a_anulado")
+    public ResponseEntity<Reserva> cambiarEstadoReservas(
+            @RequestParam Long idReserva,
+            @RequestParam String estadoActual,
+            @RequestParam String nuevoEstado) {
+        try {
+            Reserva reservaActualizada = reservaViajeService.anularReserva(idReserva,estadoActual,nuevoEstado);
+            return ResponseEntity.ok(reservaActualizada);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+
+
+    @PutMapping("/estado_viajes")
+    public ResponseEntity<List<Viaje>> cambiarEstadoViajes(
+            @RequestParam String estadoActual,
+            @RequestParam String nuevoEstado) {
+        List<Viaje> viajesActualizados = reservaViajeService.actualizarEstadoViajes(estadoActual, nuevoEstado);
+        return ResponseEntity.ok(viajesActualizados); // Devuelve la lista de viajes actualizados
+    }
+
+    @GetMapping("/reservas/{idUsuario}")
+    public List<Reserva> obtenerReservaPorIdUsuario(@PathVariable Long idUsuario){
+        return reservaViajeService.findByUserId(idUsuario);
+    }
+
+
     // Endpoint para crear un viaje
     @PostMapping("/registrar")
     public ResponseEntity<Viaje> crearViaje(@RequestBody Viaje viaje) {
         Viaje viajeGuardado = reservaViajeService.saveViaje(viaje);
         return ResponseEntity.created(URI.create("/api/viajes/" + viajeGuardado.getIdViaje())).body(viajeGuardado);
     }
+
 
 
     // Endpoint para agregar una reserva a un viaje existente

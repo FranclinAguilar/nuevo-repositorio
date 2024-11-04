@@ -1,21 +1,52 @@
 .asientos-grid {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.fila {
+    display: flex;
     justify-content: center;
     gap: 10px;
-    align-content: center;
+}
+
+.fila1 {
+    padding-left: 20px;
+    /* Ajusta el espaciado */
+}
+
+.fila2 {
+    padding-left: 0;
+}
+
+.fila3 {
+    padding-left: 10px;
 }
 
 .asiento {
-    width: calc(33.33% - 10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
 
-@media (max-width: 768px) {
-    .asiento {
-        width: calc(50% - 10px);
-    }
+button[disabled] {
+    background-color: rgb(0, 0, 0);
+    cursor: not-allowed;
 }
-.asiento{
+.asiento_name{
     color: #fff;
+}
+
+.asiento {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Espacio entre la imagen y el texto/botón */
+}
+
+.asiento-img {
+    width: 100px;
+    height: 80px;
 }

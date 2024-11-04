@@ -19,6 +19,11 @@ public class AsientoController {
         return asientoService.obtener_asientos();
     }
 
+    @PutMapping("/reserved/{id}/{idUsuario}")
+    public Asiento reservar_asiento(@PathVariable int id, @PathVariable int idUsuario){
+       return asientoService.reservar_asiento(id,idUsuario);
+    }
+
     @PutMapping("/asientos_id/{id}/{idUsuario}")
     public Asiento cambiarEstado(@PathVariable int id, @PathVariable int idUsuario) {
         return asientoService.cambiar_estado(id, idUsuario);

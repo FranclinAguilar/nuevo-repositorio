@@ -25,6 +25,8 @@ const Login = () => {
         // Almacenar el ID del usuario y el ID de la empresa en localStorage
         localStorage.setItem('usuarioId', data.id);  // Aquí accedes al 'id' del DTO
         localStorage.setItem('empresaId', data.empresaId);
+        localStorage.setItem('nombre', data.nombre);
+        localStorage.setItem('apellido', data.apellido);
 
         // Redirigir según el rol
         navigate(data.rol === 'Pasajero' ? '/inicio_cliente' : '/inicio_oficina');

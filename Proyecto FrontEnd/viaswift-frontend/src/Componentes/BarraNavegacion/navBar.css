@@ -1,0 +1,5 @@
+/* Agrega este estilo en tu archivo de estilos CSS */
+.nav-link-hover:hover, .dropdown-item-hover:hover {
+    background-color: #1DB954 !important;
+    color: white !important;
+}

@@ -93,6 +93,7 @@ public class UsuarioController {
             UsuarioDTOLogin usuarioDTO = new UsuarioDTOLogin();
             usuarioDTO.setId(usuario.getId());
             usuarioDTO.setNombre(usuario.getNombre());
+            usuarioDTO.setApellido(usuario.getApellido());
             usuarioDTO.setEmpresaId(usuario.getEmpresaId());
             usuarioDTO.setRol(usuario.getRol());
 

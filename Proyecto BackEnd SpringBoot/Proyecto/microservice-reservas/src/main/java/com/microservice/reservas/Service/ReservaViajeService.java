@@ -8,7 +8,6 @@ import com.microservice.reservas.entities.Viaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,18 +30,58 @@ public class ReservaViajeService {
         return viajeRepository.findAll(); // Usamos viajeRepository aquí
     }
 
+    public List<Reserva> findReservasByEstado(String estado) {
+        return reservaRepository.findByEstado(estado); // Suponiendo que tienes un método en tu repositorio
+    }
+
+    public Reserva anularReserva(Long idReserva, String estadoActual, String nuevoEstado) {
+        Optional<Reserva> optionalReserva = reservaRepository.findById(idReserva);
+        if (optionalReserva.isPresent()) {
+            Reserva reserva = optionalReserva.get();
+
+            if (reserva.getEstado().equals(estadoActual)) { // Usa equals para comparar Strings
+                reserva.setEstado(nuevoEstado);
+                reservaRepository.save(reserva); // Guarda la reserva actualizada
+            }
+
+            return reserva; // Retorna la reserva actualizada
+        } else {
+            throw new RuntimeException("Reserva no encontrada con ID: " + idReserva);
+        }
+    }
+
+
+
+    public List<Reserva> actualizarEstadoReservas(String estadoActual, String nuevoEstado) {
+        List<Reserva> reservas = reservaRepository.findByEstado(estadoActual);
+        for (Reserva reserva : reservas) {
+            reserva.setEstado(nuevoEstado); // Cambia el estado
+            reservaRepository.save(reserva); // Guarda la reserva actualizada
+        }
+        return reservas; // Retorna la lista de reservas actualizadas
+    }
+
+    public List<Viaje> actualizarEstadoViajes(String estadoActual, String nuevoEstado) {
+        List<Viaje> viajes = viajeRepository.findByEstado(estadoActual);
+        for (Viaje viaje : viajes) {
+            viaje.setEstado(nuevoEstado); // Cambia el estado
+            viajeRepository.save(viaje); // Guarda el viaje actualizado
+        }
+        return viajes; // Retorna la lista de viajes actualizados
+    }
+
+
     // Obtener un viaje por ID
     public Optional<Viaje> findViajeById(Long id) {
         return viajeRepository.findById(id); // Usamos viajeRepository aquí
     }
 
-    /*obtener un viaje por su estado
-    public Optional<Viaje> findStatusByEstado(String estado){
-        return viajeRepository.findByStatus(estado);
-    }*/
+    public List<Reserva> findByUserId(Long idUsuario){
+        return reservaRepository.findByidUsuario(idUsuario);
+    }
 
 
-    // Guardar un viaje
+
     // Guardar un viaje
     public Viaje saveViaje(Viaje viaje) {
         Long lastId = viajeRepository.count();

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, ListGroup, ListGroupItem, Alert, Spinner } from 'reactstrap';
-import conector_reservas from '../../Servicios/conector_reservas'; 
+import conector_reservas from '../../Servicios/conector_reservas';
 import conector_unidades from '../../Servicios/conector_unidades';
 import axios from 'axios';
 const ListaConductores = ({ onSelectConductor }) => {
@@ -11,9 +11,9 @@ const ListaConductores = ({ onSelectConductor }) => {
     const obtenerConductores = async () => {
         setLoading(true);
         setError(null);
-        
-        
-        
+
+
+
         try {
             const respuesta = await conector_unidades.get('/all');
             setConductores(respuesta.data);
@@ -26,44 +26,61 @@ const ListaConductores = ({ onSelectConductor }) => {
     };
 
     const handleSelectConductor = async (conductor) => {
-        const confirmar = window.confirm(`¿Deseas añadir a ${conductor.nombre} con capacidad ${conductor.vehiculo.capacidad}a la espera?`);
+        try {
+            //buscar viaje que esté abordando
+            const respuesta = await conector_reservas.get("/all");
+            const datos = respuesta.data;
+            const viajesAbordando = datos.find(viaje => viaje.estado === "abordando");
+
+            if (viajesAbordando) {
+                alert("Existe un vehículo abordando pasajeros");
+                return;
+            } else{
+                const confirmar = window.confirm(`¿Deseas añadir a ${conductor.nombre} con capacidad ${conductor.vehiculo.capacidad}a la espera?`);
+
+
+
+                if (confirmar) {
+        
+                    const capacidad = conductor.vehiculo.capacidad;
+        
+                    for (let i = 1; i <= capacidad; i++) {
+                        const nuevoAsiento = {
+                            id: i,
+                            estado: 'disponible',
+                            id_usuario: null
+                        };
+        
+                        try {
+                            await axios.post('http://localhost:9090/guardar_asientos', nuevoAsiento)
+                        } catch (error) {
+                            console.error('Error al guardar el asiento:', error);
+                        }
+                    }
+                    const viaje = {
+                        origen: 'Sucre',
+                        destino: 'Tarija',
+                        estado: 'abordando',
+                        idConductor: conductor.id
+                    };
         
         
-
-        if (confirmar) {
-
-          const capacidad = conductor.vehiculo.capacidad; 
-
-        for (let i = 1; i <=capacidad; i++) {
-            const nuevoAsiento = {
-                id: i,
-                estado: 'disponible',
-                id_usuario: null
-            };
-
-            try {
-                await axios.post('http://localhost:9090/guardar_asientos', nuevoAsiento)
-            } catch (error) {
-                console.error('Error al guardar el asiento:', error);
+                    try {
+                        const respuesta = await conector_reservas.post('/registrar', viaje);
+                        console.log('Viaje registrado:', respuesta.data);
+                        alert("viaje registrado: ", respuesta.data);
+                        onSelectConductor(conductor);
+                    } catch (error) {
+                        console.error('Error al registrar el viaje', error);
+                        alert('Error al registrar el viaje. Por favor, intenta de nuevo.');
+                    }
+                }
             }
-        }
-            const viaje = {
-                origen: 'Sucre', 
-                destino: 'Tarija',
-                estado: 'abordando',
-                idConductor: conductor.id
-            };
+        } catch (error) {
 
-
-            try {
-                const respuesta = await conector_reservas.post('/registrar', viaje);
-                console.log('Viaje registrado:', respuesta.data);
-                onSelectConductor(conductor);
-            } catch (error) {
-                console.error('Error al registrar el viaje', error);
-                alert('Error al registrar el viaje. Por favor, intenta de nuevo.');
-            }
         }
+        
+        
     };
 
     return (

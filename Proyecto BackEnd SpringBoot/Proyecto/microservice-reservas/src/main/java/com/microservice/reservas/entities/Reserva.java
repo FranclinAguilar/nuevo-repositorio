@@ -15,14 +15,16 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReserva;
-
+    private String nombreApellido;
     private String numReserva;
     private String asientos;
     private double precio;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaHora;
 
-    private Long idUsuario; // ID del usuario que realiza la reserva
+
+    private Long idUsuario;
+    private String estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_viaje", nullable = false)

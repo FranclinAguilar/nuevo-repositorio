@@ -3,7 +3,8 @@ import Tarjeta from '../../Componentes/Tarjetas/Tarjeta';
 import '../../Componentes/Tarjetas/dimensiones_de_tarjetas.css';
 import CarouselComponent from '../../Componentes/Carrusel/Carousel';
 import { useNavigate } from 'react-router-dom';
-import './inicio_cliente.css';
+import { Popover, PopoverHeader, PopoverBody, Button } from 'reactstrap';
+import '../../Componentes/modelo_inicio/modelo_inicio.css';
 
 const ciudadesIniciales = [
     { src: 'images/imagen1.jpg', ciudad: 'Cochabamba' },
@@ -14,6 +15,8 @@ const ciudadesIniciales = [
 const InicioCliente = () => {
     const [ciudadOrigen, setCiudadOrigen] = useState(null);
     const [ciudadDestino, setCiudadDestino] = useState(null);
+    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [popoverMessage, setPopoverMessage] = useState("");
     const navigate = useNavigate();
 
     const manejarSeleccionOrigen = (ciudad) => {
@@ -26,13 +29,17 @@ const InicioCliente = () => {
 
     const verificar = () => {
         if (!ciudadOrigen || !ciudadDestino) {
-            alert("Debes seleccionar origen y destino");
+            setPopoverMessage("Debes seleccionar origen y destino");
+            setPopoverOpen(true);
         } else if (ciudadOrigen === ciudadDestino) {
-            alert("Debes seleccionar un origen y destino diferentes");
+            setPopoverMessage("Debes seleccionar un origen y destino diferentes");
+            setPopoverOpen(true);
         } else {
             navigate("/empresas_cliente");
         }
     };
+
+    const togglePopover = () => setPopoverOpen(!popoverOpen);
 
     return (
         <div className='fondo'>
@@ -69,21 +76,37 @@ const InicioCliente = () => {
                 </div>
 
                 <div className="dos_tarjetas">
-                    <button onClick={verificar}>Ver Vehículos Disponibles</button>
+                    <button id="verificarBtn" onClick={verificar}>Ver Vehículos Disponibles</button>
+                    <Popover 
+                        placement="bottom" 
+                        isOpen={popoverOpen} 
+                        target="verificarBtn" 
+                        toggle={togglePopover}
+                    >
+                        <PopoverHeader>Atención</PopoverHeader>
+                        <PopoverBody>
+                            {popoverMessage}
+                            <div style={{ marginTop: '10px', textAlign: 'right' }}>
+                                <Button color="primary" onClick={togglePopover}>
+                                    Entendido
+                                </Button>
+                            </div>
+                        </PopoverBody>
+                    </Popover>
                 </div>
                 <br />
                 <div className='tarjeta'>
                     <Tarjeta
                         Titulo="contenido rutas de acuerdo a su historial"
-                        Contenido={ ""}
+                        Contenido={""}
                     />
                 </div>
             </div>
             <div className='contenedor_inicio1'>
-            <div className='tarjeta'>
+                <div className='tarjeta'>
                     <Tarjeta
                         Titulo="contenido informaciones"
-                        Contenido={ ""}
+                        Contenido={""}
                     />
                 </div>
             </div>

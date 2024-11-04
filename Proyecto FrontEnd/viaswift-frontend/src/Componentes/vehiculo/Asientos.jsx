@@ -1,28 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import axios from "axios";
-import './Asientos.css'; // Asegúrate de que el archivo CSS esté importado
+import './Asientos.css';
+import asientoImg from './asiento.png'; // Importa la imagen
 
 const Asientos = () => {
   const [asientos, setAsientos] = useState([]);
-
-  //añadir control de los asientos en caso de no reservar
-  const verificarReserva = async () => {
-    try {
-      const respuesta = await axios.get("http://localhost:9100/api/viajes")
-      const datos = respuesta.data;
-      if(datos.estado){
-        
-      }
-
-    } catch (error) {
-      
-    }
-
-  }
-
-
-
 
   useEffect(() => {
     const cliente_webSocket = new Client({
@@ -60,8 +43,6 @@ const Asientos = () => {
       return;
     }
 
-    alert("Reservando Asiento número: " + id);
-
     try {
       const respuesta = await axios.put(`http://localhost:9090/asientos_id/${id}/${idUser}`);
       const AsientoObtenido = respuesta.data;
@@ -75,19 +56,67 @@ const Asientos = () => {
     }
   };
 
+  const renderAsientos = () => {
+    const asientosModificados = asientos.map(asiento => (
+      asiento.id === 1 ? { ...asiento, estado: 'ocupado', nombre: 'Chofer' } : asiento
+    ));
+
+    const fila1 = asientosModificados.filter(asiento => asiento.id === 6 || asiento.id === 7 || asiento.id === 8);
+    const fila2 = asientosModificados.filter(asiento => asiento.id >= 3 && asiento.id <= 5);
+    const fila3 = asientosModificados.filter(asiento => asiento.id === 1 || asiento.id === 2);
+
+    return (
+      <>
+        <div className="fila fila1">
+          {fila1.map(asiento => (
+            <div key={asiento.id} className="asiento">
+              <img src={asientoImg} alt="Asiento" className="asiento-img" />
+              <p>{asiento.nombre || `Asiento ${asiento.id}`}</p>
+              <button
+                onClick={() => cambiarEstado(asiento.id)}
+                disabled={asiento.estado === 'ocupado'}
+              >
+                {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className="fila fila2">
+          {fila2.map(asiento => (
+            <div key={asiento.id} className="asiento">
+              <img src={asientoImg} alt="Asiento" className="asiento-img" />
+              <p className="asiento_name">{asiento.nombre || `Asiento ${asiento.id}`}</p>
+              <button
+                onClick={() => cambiarEstado(asiento.id)}
+                disabled={asiento.estado === 'ocupado'}
+              >
+                {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className="fila fila3">
+          {fila3.reverse().map(asiento => (
+            <div key={asiento.id} className="asiento">
+              <img src={asientoImg} alt="Asiento" className="asiento-img" />
+              <p className="asiento_name">{asiento.nombre || `Asiento ${asiento.id}`}</p>
+              <button
+                onClick={() => cambiarEstado(asiento.id)}
+                disabled={asiento.estado === 'ocupado'}
+              >
+                {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
+              </button>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
   return (
     <div>
-      <h1>Estados de los Asientos</h1>
       <div className="asientos-grid">
-        {asientos.map(asiento => (
-          <div key={asiento.id} className="asiento">
-            <p className="asiento">Asiento {asiento.id}</p>
-
-            <button onClick={() => cambiarEstado(asiento.id)}>
-              {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
-            </button>
-          </div>
-        ))}
+        {renderAsientos()}
       </div>
     </div>
   );

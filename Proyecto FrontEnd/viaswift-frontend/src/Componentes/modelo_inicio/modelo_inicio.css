@@ -6,8 +6,9 @@
     padding: 8px;
 }
 
+
 .contenedor_inicio {
-    background-color: #1db954; 
+    background-color: #000000; 
     flex: 0 0 60%;
     height: 660px; 
     padding: 15px;
@@ -17,8 +18,17 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
 }
 
+.fondo_asientos{
+    justify-content: center;
+    align-items: center;
+    background-image: url('/public/images/fondo_unidades1.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.7); 
+}
 .contenedor_inicio1 {
-    background-color: #1db954;
+    background-color: #000000;
     flex: 0 0 35%;
     height: 660px; 
     padding: 15px;
@@ -35,34 +45,6 @@
     font-size: 16px;
     margin: 10px 0;
     padding: 4px;
-}
-
-.boton-vehi {
-    background-color: #ffffff; 
-    color: #000000; 
-    font-family: "Roboto", sans-serif;
-    font-weight: bold;
-    border: 2px solid #1db954; 
-    border-radius: 30px;
-    font-size: 15px;
-    cursor: pointer;
-    width: 250px;
-    height: 40px;
-    transition: background-color 0.3s ease; 
-}
-
-.boton-vehi:hover {
-    background-color: rgba(29, 185, 84, 0.2); 
-}
-
-.contenedor_inicio2 {
-    background-color: #202020; 
-    flex: 0 0 25%;
-    min-height: 100px;
-    height: 200px;
-    margin-top: 10px;
-    padding: 15px;
-    border-radius: 5px;
 }
 
 h1 {

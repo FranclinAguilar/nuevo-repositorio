@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import './UnidadEnCola.css'; // Importa el archivo CSS
+import './UnidadEnCola.css';
 
 const UnidadEnCola = () => {
     const [unidad, setUnidad] = useState(null); 
@@ -39,12 +39,8 @@ const UnidadEnCola = () => {
 
     return (
         <div className="unidad-en-cola">
-            <h2>Detalles de la Unidad</h2>
-            <button
-                onClick={VerInfoUnidad}
-                className="btn-ver-info"
-            >
-                {mostrarInfoUnidad ? "Ocultar Info de la Unidad" : "Ver Info de la Unidad"}
+            <button onClick={VerInfoUnidad} className="btn-ver-info">
+                {mostrarInfoUnidad ? "Ocultar Información" : "Ver Información de la Unidad"}
             </button>
 
             {loading && (
@@ -53,17 +49,43 @@ const UnidadEnCola = () => {
                 </div>
             )}
 
-            {mostrarInfoUnidad && unidad && !loading ? (
-                <div className="info-unidad">
-                    <p className="info-item">Conductor: {unidad.nombre || "N/A"} {unidad.apellidos || "N/A"}</p>
-                    <p className="info-item">Marca del Vehículo: {unidad.vehiculo?.marca || "N/A"}</p>
-                    <p className="info-item">Capacidad: {unidad.vehiculo?.capacidad || "N/A"}</p>
-                    <p className="info-item">Licencia: {unidad.licencia || "N/A"}</p>
-                    <p className="info-item">Teléfono: {unidad.telefono || "N/A"}</p>
-                </div>
-            ) : mostrarInfoUnidad && !loading ? (
-                <p>No hay unidades disponibles</p>
-            ) : null}
+{mostrarInfoUnidad && unidad && !loading ? (
+    <div className="info-table-container">
+        <table className="info-table">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Conductor</td>
+                    <td>{unidad.nombre} {unidad.apellidos}</td>
+                </tr>
+                <tr>
+                    <td>Licencia</td>
+                    <td>{unidad.licencia}</td>
+                </tr>
+                <tr>
+                    <td>Marca del Vehículo</td>
+                    <td>{unidad.vehiculo?.marca || "N/A"}</td>
+                </tr>
+                <tr>
+                    <td>Capacidad</td>
+                    <td>{unidad.vehiculo?.capacidad || "N/A"}</td>
+                </tr>
+                <tr>
+                    <td>Teléfono</td>
+                    <td>{unidad.telefono}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+) : mostrarInfoUnidad && !loading ? (
+    <p>No hay unidades disponibles</p>
+) : null}
+
         </div>
     );
 };
