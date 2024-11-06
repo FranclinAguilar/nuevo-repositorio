@@ -1,0 +1,77 @@
+/* Contenedor principal */
+.empresas-cliente {
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  /* Contenedor de la estructura del contenido */
+  .empresas-cliente-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Contenedor de contenido principal */
+  .empresas-cliente-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Sección de asientos */
+  .empresas-cliente-asientos {
+    flex: 0 0 48%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Sección de imágenes u otros elementos */
+  .empresas-cliente-imagenes {
+    flex: 0 0 48%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Botones */
+  .empresas-cliente button {
+    font-size: 18px;
+    width: 200px;
+    margin: 10px 0;
+  }
+  
+  /* Responsivo para pantallas pequeñas (móviles) */
+  @media (max-width: 768px) {
+    /* Cambia la disposición de las secciones para pantallas pequeñas */
+    .empresas-cliente-content {
+      flex-direction: column;
+    }
+  
+    /* Asientos y Contenido adicional ocupan todo el ancho */
+    .empresas-cliente-asientos, .empresas-cliente-imagenes {
+      flex: 0 0 100%;
+      margin-bottom: 20px; /* Espacio entre secciones */
+    }
+  
+    /* Ajuste de botones */
+    .empresas-cliente button {
+      width: 100%; /* Botones ocupan todo el ancho */
+      font-size: 16px;
+    }
+  }
+  
+  /* Responsivo para pantallas muy pequeñas (teléfonos en modo vertical) */
+  @media (max-width: 480px) {
+    /* Ajustar la font-size de los títulos */
+    .empresas-cliente h5 {
+      font-size: 18px;
+    }
+  
+    /* Ajustar el espaciado */
+    .empresas-cliente-asientos, .empresas-cliente-imagenes {
+      padding: 15px;
+    }
+  }
+  

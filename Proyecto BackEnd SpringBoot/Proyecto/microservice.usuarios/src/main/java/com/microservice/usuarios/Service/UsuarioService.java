@@ -13,33 +13,28 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioService {
 
-    //inyectamos el repositorio
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario findBytelefono(String telefono){
+    public Usuario findByTelefono(String telefono) {
         return usuarioRepository.findByTelefono(telefono);
     }
-
 
     public void saveUsuario(Usuario usuario) {
         usuarioRepository.save(usuario);
     }
 
-
-    public boolean existsByci(int ci){
-        return usuarioRepository.existsByci(ci);
+    public boolean existsByCi(String ci) {
+        return usuarioRepository.existsByCi(ci);
     }
 
     public boolean existsByEmail(String email) {
         return usuarioRepository.existsByEmail(email);
     }
 
-    public boolean existsBytelefono(String telefono) {
-        return usuarioRepository.existsBytelefono(telefono);
+    public boolean existsByTelefono(String telefono) {
+        return usuarioRepository.existsByTelefono(telefono);
     }
-
-
 
     public boolean deleteUsuarioById(Long id) {
         if (usuarioRepository.existsById(id)) {
@@ -49,63 +44,45 @@ public class UsuarioService {
         return false;
     }
 
-
-
-    // Servicio para consultar todos los usuarios a DTO Data Object Transf
     public List<UsuarioDTO> getAllUsuarios() {
-        // Obtener todos los usuarios desde la base de datos
-        List<Usuario> usuarios = usuarioRepository.findAll();
-
-        // Convertir la lista de entidades Usuario a DTO
-        List<UsuarioDTO> usuarioDTOs = usuarios.stream()
-                .map(this::convertToDTO) //convertimos la entidad
+        return usuarioRepository.findAll().stream()
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
-
-        return usuarioDTOs;
     }
 
-    // Método para convertir la entidad Usuario a UsuarioDTO
     private UsuarioDTO convertToDTO(Usuario usuario) {
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setCi(usuario.getCi());
-        usuarioDTO.setUsername(usuario.getUsername());
-        usuarioDTO.setNombre(usuario.getNombre());
-        usuarioDTO.setApellido(usuario.getApellido());
-        usuarioDTO.setF_nacimiento(usuario.getF_nacimiento());
-        usuarioDTO.setTelefono(usuario.getTelefono());
-        usuarioDTO.setDireccion(usuario.getDireccion());
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setEmpresaId(usuario.getEmpresaId());
-        usuarioDTO.setEstado(usuario.getEstado());
-        usuarioDTO.setRol(usuario.getRol());
-        usuarioDTO.setPassword(usuario.getPassword()); // Asegúrate de que este campo esté aquí
-
-        return usuarioDTO;
+        return new UsuarioDTO() {{
+            setId(usuario.getId());
+            setCi(usuario.getCi());
+            setNombre(usuario.getNombre());
+            setApellido(usuario.getApellido());
+            setFecha_nacimiento(usuario.getFecha_nacimiento());
+            setTelefono(usuario.getTelefono());
+            setDireccion(usuario.getDireccion());
+            setEmail(usuario.getEmail());
+            setEmpresaId(usuario.getEmpresaId());
+            setEstado(usuario.isEstado());
+            setRol(usuario.getRol());
+        }};
     }
 
     public boolean updateUsuarioById(Long id, Usuario usuarioActualizado) {
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
 
-        if (usuarioExistente.isPresent()) {
-            Usuario usuario = usuarioExistente.get();
-            // Actualiza los campos del usuario existente con los datos del usuario actualizado
+        return usuarioExistente.map(usuario -> {
             usuario.setNombre(usuarioActualizado.getNombre());
             usuario.setApellido(usuarioActualizado.getApellido());
             usuario.setEmail(usuarioActualizado.getEmail());
             usuario.setCi(usuarioActualizado.getCi());
             usuario.setTelefono(usuarioActualizado.getTelefono());
             usuario.setDireccion(usuarioActualizado.getDireccion());
-            usuario.setF_nacimiento(usuarioActualizado.getF_nacimiento());
+            usuario.setFecha_nacimiento(usuarioActualizado.getFecha_nacimiento());
             usuario.setRol(usuarioActualizado.getRol());
-            usuario.setPassword(usuarioActualizado.getPassword()); // Ten cuidado con almacenar contraseñas directamente
+            usuario.setPassword(usuarioActualizado.getPassword());
+            usuario.setEstado(usuarioActualizado.isEstado());
 
-            usuarioRepository.save(usuario); // Guarda los cambios
+            usuarioRepository.save(usuario);
             return true;
-        }
-        return false;
+        }).orElse(false);
     }
-
-
-
 }

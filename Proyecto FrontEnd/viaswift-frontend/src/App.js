@@ -10,6 +10,7 @@ import Gestion_unidades from './paginas/oficina/gestion_unidades';
 import Gestion_viajes from './paginas/cliente/gestionviajes';
 import Registro_Usuarios from './paginas/oficina/registro_usuarios';
 import Viaje_Tarija from './paginas/oficina/Viaje_Tarija';
+import FormularioUnidades from './Componentes/Formularios/FormularioUnidades';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path="gestion_viajes" element={<Gestion_viajes/>}/>
             <Route path="registro_usuarios" element={<Registro_Usuarios/>}/>
             <Route path="viaje_tarija" element={<Viaje_Tarija/>}/>
+            <Route path="registro_unidad" element={<FormularioUnidades/>}/>
 
           </Route>
         </Routes>

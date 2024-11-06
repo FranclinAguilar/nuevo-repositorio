@@ -25,7 +25,7 @@ public class UnidadController {
             conductorService.saveConductor(conductor);
             return ResponseEntity.status(HttpStatus.CREATED).body("Unidad registrada correctamente!");
         } catch (Exception e) {
-            // Log el error (puedes usar un logger como SLF4J)
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar la unidad: " + e.getMessage());
         }
     }
@@ -36,6 +36,20 @@ public class UnidadController {
         return ResponseEntity.ok(conductorList);
     }
 
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<?> actualizarUnidad(@PathVariable Long id, @RequestBody Conductor conductorActualizado) {
+        try {
+            boolean actualizado = conductorService.updateConductor(id, conductorActualizado);
+            if (actualizado) {
+                return ResponseEntity.ok("Unidad actualizada correctamente!");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Conductor no encontrado");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar la unidad: " + e.getMessage());
+        }
+    }
 
 
 

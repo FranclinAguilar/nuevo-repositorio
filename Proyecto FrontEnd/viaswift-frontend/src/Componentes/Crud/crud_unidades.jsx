@@ -7,6 +7,7 @@ const Crud_Unidades = () => {
     const [unidades, setUnidades] = useState([]);
     const [cargando, setCargando] = useState(false);
     const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
     // Añadir Unidad
@@ -48,6 +49,15 @@ const Crud_Unidades = () => {
         }
     };
 
+    // Filtrar conductores por nombre
+    const filtrarUnidades = () => {
+        return unidades.filter((unidad) =>
+            (unidad.nombre && unidad.nombre.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (unidad.apellidos && unidad.apellidos.toLowerCase().includes(searchQuery.toLowerCase())) //||
+            //(unidad.vehiculo && unidad.vehiculo.placa && unidad.vehiculo.placa.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+    };
+
     return (
         <div className="contenedor-lista-unidades">
             <h2 className="titulo">Gestión de Conductores</h2>
@@ -59,6 +69,15 @@ const Crud_Unidades = () => {
                 <button onClick={añadirUnidad}>
                     Añadir Conductor
                 </button>
+            </div>
+
+            <div className="busqueda">
+                <input
+                    type="text"
+                    placeholder="Buscar conductor..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
             </div>
 
             {error && <div className="alerta error">Error: No se pudo cargar los conductores</div>}
@@ -78,8 +97,8 @@ const Crud_Unidades = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {unidades.length > 0 ? (
-                        unidades.map((unidad, index) => (
+                    {filtrarUnidades().length > 0 ? (
+                        filtrarUnidades().map((unidad, index) => (
                             <tr key={unidad.id}>
                                 <td>{index + 1}</td>
                                 <td>{unidad.nombre || 'N/A'}</td>

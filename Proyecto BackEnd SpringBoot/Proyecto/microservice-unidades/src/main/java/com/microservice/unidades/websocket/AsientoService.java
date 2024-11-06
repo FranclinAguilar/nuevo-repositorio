@@ -28,7 +28,7 @@ public class AsientoService {
         Optional<Asiento> reserva_Asiento = asientoRepository.findById(id);
         if (reserva_Asiento.isPresent()){
             Asiento asiento = reserva_Asiento.get();
-            if(asiento.getEstado().equals("no disponible") && asiento.getId_usuario() == idUsuario){
+            if(asiento.getEstado().equals("reservando") && asiento.getId_usuario() == idUsuario){
 
                 asiento.setEstado("reservado");
                 asiento.setId_usuario(1);
@@ -51,9 +51,9 @@ public class AsientoService {
             Asiento asiento = optionalAsiento.get();
 
             if (asiento.getEstado().equals("disponible")) {
-                asiento.setEstado("no disponible");
+                asiento.setEstado("reservando");
                 asiento.setId_usuario(idUsuario);
-            } else if (asiento.getEstado().equals("no disponible") && asiento.getId_usuario() == idUsuario) {
+            } else if (asiento.getEstado().equals("reservando") && asiento.getId_usuario() == idUsuario) {
                 asiento.setEstado("disponible");
                 asiento.setId_usuario(null);
             }

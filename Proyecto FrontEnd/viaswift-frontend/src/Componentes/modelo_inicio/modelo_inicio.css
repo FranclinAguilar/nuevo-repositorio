@@ -1,70 +1,107 @@
 .fondo {
-    background-color: #191414; 
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 100vh; 
-    padding: 8px;
+  background-color: #b6b6b6; /* Color de fondo general */
+  min-height: 100vh;
+  padding: 20px; /* Espaciado general */
 }
-
 
 .contenedor_inicio {
-    background-color: #000000; 
-    flex: 0 0 60%;
-    height: 660px; 
-    padding: 15px;
-    border-radius: 5px;
-    margin-right: 10px;
-    margin-left: 5px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+  max-width: 1300px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centra el contenedor */
 }
 
-.fondo_asientos{
-    justify-content: center;
-    align-items: center;
-    background-image: url('/public/images/fondo_unidades1.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: brightness(0.7); 
-}
-.contenedor_inicio1 {
-    background-color: #000000;
-    flex: 0 0 35%;
-    height: 660px; 
-    padding: 15px;
-    border-radius: 5px;
-    margin-right: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+.row {
+  display: flex;
+  flex-wrap: wrap; /* Permite que las columnas se envuelvan en dispositivos pequeños */
 }
 
-.ciudad-info {
-    border: 1.5px solid #1db954; 
-    backdrop-filter: blur(20px);
-    border-radius: 15px;
-    color: #f5f5f5; 
-    font-size: 16px;
-    margin: 10px 0;
-    padding: 4px;
+.col-md-4 {
+  flex: 0 0 33.33%; /* Cada columna ocupa un tercio en pantallas medianas y superiores */
+  max-width: 33.33%; /* Ancho máximo de la columna */
+  padding: 5px; /* Espaciado interno */
+  height: 550px; /* Establece una altura fija para el contenedor */
+  overflow: auto; /* Permite el scroll si el contenido excede la altura */
 }
 
-h1 {
-    color: #1db954; 
-    text-align: center; 
+.card {
+  background-color: #ffffff; /* Fondo blanco para las tarjetas */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+  padding: 20px; /* Espaciado interno */
+  text-align: center; /* Centra el contenido */
+  height: 100%; /* Hace que la tarjeta ocupe toda la altura disponible */
 }
 
-@media (max-width: 600px) {
-    .contenedor_inicio,
-    .contenedor_inicio1,
-    .contenedor_inicio2 {
-        flex: 0 0 100%; 
-        margin-right: 0;
-        margin-left: 0;
-        width: 100%;
-        margin-top: 20px;
-    }
-
-    .fondo {
-        flex-direction: column; 
-        align-items: center;
-    }
+.auto-card {
+  border-left: 10px solid #007bff;
+  border-right: 10px solid #007bff; /* Color de borde para Asientos */
 }
+
+.reservas-card {
+  border-left: 5px solid #007bff; /* Color de borde para Reservas */
+}
+
+.conductores-card {
+  border-left: 5px solid #007bff; /* Color de borde para Conductores */
+}
+
+.text-center {
+  text-align: center; /* Centra el texto */
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem; /* Margen inferior */
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .col-md-4 {
+    flex: 0 0 100%; /* Las columnas ocupan el 100% en dispositivos pequeños */
+    max-width: 100%; /* Ancho máximo de la columna */
+  }
+}
+
+/* Contenedor para los botones, con un espaciado adecuado */
+.boton-container {
+  display: flex;
+  justify-content: center; /* Centra los botones */
+  gap: 20px; /* Espacio entre los botones */
+  margin-top: 20px; /* Espacio superior */
+}
+
+/* Estilo del botón "Iniciar Viaje" */
+.boton-iniciar-viaje {
+  background-color: #007bff; /* Color de fondo personalizado */
+  color: white;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  width: auto; /* El botón no ocupa todo el ancho */
+  max-width: 200px; /* Ancho máximo del botón */
+}
+
+.boton-iniciar-viaje:hover {
+  background-color: #0056b3; /* Color al pasar el mouse */
+}
+
+/* Estilo del botón "Reservar" */
+.boton-reservar {
+  background-color: #0056b3; /* Color de fondo personalizado */
+  color: white;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  width: auto; /* El botón no ocupa todo el ancho */
+  max-width: 200px; /* Ancho máximo del botón */
+}
+
+.boton-reservar:hover {
+  background-color: #218838; /* Color al pasar el mouse */
+}
+
+.boton-reservar:focus {
+  outline: none; /* Elimina el borde cuando el botón es enfocado */
+}
+
+/* Agregar otros estilos según lo necesites */

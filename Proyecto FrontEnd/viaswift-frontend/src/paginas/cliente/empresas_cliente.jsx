@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Asientos from '../../Componentes/vehiculo/Asientos';
-import Tarjeta from '../../Componentes/Tarjetas/Tarjeta';
 import { Button, Offcanvas, OffcanvasHeader, OffcanvasBody, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import '../../Componentes/modelo_inicio/modelo_inicio.css';
+import './empresas_cliente.css';  // Archivo de estilos específico
 import Ticket from '../../Componentes/ticket/Ticket';
 import conector_reservas from '../../Servicios/conector_reservas';
 import axios from 'axios';
@@ -89,7 +88,6 @@ const EmpresasCliente = () => {
       setPopoverOpen(true);
     }
   };
-  
 
   const GenerarTicket = async () => {
     const idUsuario = localStorage.getItem("usuarioId");
@@ -113,11 +111,11 @@ const EmpresasCliente = () => {
     setTicketPopoverOpen(true);
 };
 
-  
   return (
-    <div className='fondo'>
-      <div className='contenedor_inicio'>
-        <div>
+    <div className='empresas-cliente'>
+      <div className='empresas-cliente-container'>
+        {/* Información del viaje */}
+        <div className="mb-3">
           <Button color="primary" onClick={toggleOffcanvas}>
             Información del viaje
           </Button>
@@ -131,19 +129,26 @@ const EmpresasCliente = () => {
             </OffcanvasBody>
           </Offcanvas>
         </div>
-        <br />
-        <div className='fondo_asientos'>
-          <div className='dos_tarjetas'>
-            <Tarjeta
-              Titulo="Asientos de la Unidad"
-              Contenido={<Asientos />}
-            />
+        
+        <div className="empresas-cliente-content">
+          {/* Contenedor de asientos */}
+          <div className="empresas-cliente-asientos">
+            <h5 className="text-center">Asientos de la Unidad</h5>
+            <Asientos />
+          </div>
+
+          {/* Contenedor de imágenes u otros elementos */}
+          <div className="empresas-cliente-imagenes">
+            <h5>Información del Viaje</h5>
+            <p>Imágenes, rutas, sugerencias...</p>
+            {/* Aquí puedes agregar imágenes o cualquier otro contenido */}
           </div>
         </div>
-        <br />
-        <div className='dos_tarjetas'>
-          <div className='Tarjeta'>
-            <button id="reservarBtn" onClick={ReservarAsiento}>Reservar Asiento</button>
+
+        {/* Botones de reserva y ticket */}
+        <div className="d-flex justify-content-around mt-4">
+          <div>
+            <button id="reservarBtn" className="btn btn-warning" onClick={ReservarAsiento}>Reservar Asiento</button>
             <Popover
               placement="bottom"
               isOpen={popoverOpen}
@@ -161,8 +166,8 @@ const EmpresasCliente = () => {
               </PopoverBody>
             </Popover>
           </div>
-          <div className='Tarjeta'>
-            <button id="ticketBtn" onClick={GenerarTicket}>Generar Ticket</button>
+          <div>
+            <button id="ticketBtn" className="btn btn-success" onClick={GenerarTicket}>Generar Ticket</button>
             <Popover
               placement="bottom"
               isOpen={ticketPopoverOpen}
@@ -172,9 +177,7 @@ const EmpresasCliente = () => {
               <PopoverHeader>Ticket de Viaje</PopoverHeader>
               <PopoverBody>
                 {ticketData ? (
-                  <>
-                    <Ticket ticketData={ticketData} />
-                  </>
+                  <Ticket ticketData={ticketData} />
                 ) : (
                   <div>No tienes reservas en proceso</div>
                 )}
@@ -185,12 +188,6 @@ const EmpresasCliente = () => {
             </Popover>
           </div>
         </div>
-      </div>
-      <div className='contenedor_inicio1'>
-        <Tarjeta
-          Titulo="Informaciones sobre viajes"
-          Contenido="imagenes, rutas, sugerencias"
-        />
       </div>
     </div>
   );

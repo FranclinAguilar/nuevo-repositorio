@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import Tarjeta from '../../Componentes/Tarjetas/Tarjeta';
-import '../../Componentes/Tarjetas/dimensiones_de_tarjetas.css';
 import CarouselComponent from '../../Componentes/Carrusel/Carousel';
 import { useNavigate } from 'react-router-dom';
-import { Popover, PopoverHeader, PopoverBody, Button } from 'reactstrap';
 import '../../Componentes/modelo_inicio/modelo_inicio.css';
+import './estilo_inicio_cliente.css';
 
 const ciudadesIniciales = [
     { src: 'images/imagen1.jpg', ciudad: 'Cochabamba' },
@@ -15,99 +13,76 @@ const ciudadesIniciales = [
 const InicioCliente = () => {
     const [ciudadOrigen, setCiudadOrigen] = useState(null);
     const [ciudadDestino, setCiudadDestino] = useState(null);
-    const [popoverOpen, setPopoverOpen] = useState(false);
-    const [popoverMessage, setPopoverMessage] = useState("");
+    const [mostrarMensaje, setMostrarMensaje] = useState(false);
+    const [mensaje, setMensaje] = useState("");
     const navigate = useNavigate();
 
     const manejarSeleccionOrigen = (ciudad) => {
-        setCiudadOrigen(" " + ciudad);
+        setCiudadOrigen(ciudad);
     };
 
     const manejarSeleccionDestino = (ciudad) => {
-        setCiudadDestino(" " + ciudad);
+        setCiudadDestino(ciudad);
     };
 
     const verificar = () => {
         if (!ciudadOrigen || !ciudadDestino) {
-            setPopoverMessage("Debes seleccionar origen y destino");
-            setPopoverOpen(true);
+            setMensaje("Debes seleccionar origen y destino.");
+            setMostrarMensaje(true);
         } else if (ciudadOrigen === ciudadDestino) {
-            setPopoverMessage("Debes seleccionar un origen y destino diferentes");
-            setPopoverOpen(true);
+            setMensaje("Debes seleccionar un origen y destino diferentes.");
+            setMostrarMensaje(true);
         } else {
             navigate("/empresas_cliente");
         }
     };
 
-    const togglePopover = () => setPopoverOpen(!popoverOpen);
+    const cerrarMensaje = () => setMostrarMensaje(false);
 
     return (
-        <div className='fondo'>
-            <div className='contenedor_inicio'>
-                <div className="dos_tarjetas">
-                    <div>
-                        <Tarjeta
-                            Titulo=""
-                            Contenido={
-                                <CarouselComponent
-                                    ciudades={ciudadesIniciales}
-                                    ciudadSeleccionada={manejarSeleccionOrigen}
-                                />
-                            }
-                        />
-                        <p className='ciudad-info'> Ciudad origen:
-                            {ciudadOrigen || ''}
-                        </p>
+        <div className="inicio-cliente">
+            <div className="contenedor-principal">
+                <div className="seccion-izquierda">
+                    <h1 className="titulo-principal">ViajeSmart</h1>
+                    
+                    <div className="contenedor-selecciones">
+                        <div className="tarjeta">
+                            <h2>Ciudad de Origen</h2>
+                            <CarouselComponent 
+                                ciudades={ciudadesIniciales} 
+                                ciudadSeleccionada={manejarSeleccionOrigen} 
+                            />
+                            <p>Origen seleccionado: {ciudadOrigen || 'No seleccionado'}</p>
+                        </div>
+                        <div className="tarjeta">
+                            <h2>Ciudad de Destino</h2>
+                            <CarouselComponent 
+                                ciudades={ciudadesIniciales} 
+                                ciudadSeleccionada={manejarSeleccionDestino} 
+                            />
+                            <p>Destino seleccionado: {ciudadDestino || 'No seleccionado'}</p>
+                        </div>
                     </div>
-                    <div>
-                        <Tarjeta
-                            Titulo=""
-                            Contenido={
-                                <CarouselComponent
-                                    ciudades={ciudadesIniciales}
-                                    ciudadSeleccionada={manejarSeleccionDestino}
-                                />
-                            }
-                        />
-                        <p className='ciudad-info'>Ciudad destino:
-                            {ciudadDestino || ''}
-                        </p>
-                    </div>
+
+                    <button className="boton-verificar" onClick={verificar}>Ver Vehículos Disponibles</button>
+
+                    {mostrarMensaje && (
+                        <div className="mensaje-popover">
+                            <p>{mensaje}</p>
+                            <button className="boton-cerrar" onClick={cerrarMensaje}>Entendido</button>
+                        </div>
+                    )}
                 </div>
 
-                <div className="dos_tarjetas">
-                    <button id="verificarBtn" onClick={verificar}>Ver Vehículos Disponibles</button>
-                    <Popover 
-                        placement="bottom" 
-                        isOpen={popoverOpen} 
-                        target="verificarBtn" 
-                        toggle={togglePopover}
-                    >
-                        <PopoverHeader>Atención</PopoverHeader>
-                        <PopoverBody>
-                            {popoverMessage}
-                            <div style={{ marginTop: '10px', textAlign: 'right' }}>
-                                <Button color="primary" onClick={togglePopover}>
-                                    Entendido
-                                </Button>
-                            </div>
-                        </PopoverBody>
-                    </Popover>
-                </div>
-                <br />
-                <div className='tarjeta'>
-                    <Tarjeta
-                        Titulo="contenido rutas de acuerdo a su historial"
-                        Contenido={""}
-                    />
-                </div>
-            </div>
-            <div className='contenedor_inicio1'>
-                <div className='tarjeta'>
-                    <Tarjeta
-                        Titulo="contenido informaciones"
-                        Contenido={""}
-                    />
+                <div className="seccion-derecha">
+                    <div className="tarjeta-info">
+                        <h3>Información Importante</h3>
+                        <p>Detalles de servicios, descuentos y más información relevante.</p>
+                    </div>
+                    <div className="tarjeta-info">
+                        <h3>Actualizaciones</h3>
+                        <p>Noticias sobre nuestros servicios y nuevas rutas disponibles.</p>
+                    </div>
                 </div>
             </div>
         </div>

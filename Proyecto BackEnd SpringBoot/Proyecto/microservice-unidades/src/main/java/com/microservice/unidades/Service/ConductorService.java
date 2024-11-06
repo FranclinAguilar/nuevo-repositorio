@@ -4,6 +4,7 @@ import com.microservice.unidades.Repository.ConductorRepository;
 import com.microservice.unidades.dto.ConductorDTO;
 import com.microservice.unidades.dto.VehiculoDTO;
 import com.microservice.unidades.entities.Conductor;
+import com.microservice.unidades.entities.Vehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,33 @@ public class ConductorService {
     public boolean DeleteConductorById(Long id){
         if(conductorRepository.existsById(id)){
             conductorRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+    public boolean updateConductor(Long id, Conductor conductorActualizado) {
+        Optional<Conductor> conductorOptional = conductorRepository.findById(id);
+        if (conductorOptional.isPresent()) {
+            Conductor conductorExistente = conductorOptional.get();
+
+            // Actualizar los campos del Conductor
+            conductorExistente.setNombre(conductorActualizado.getNombre());
+            conductorExistente.setApellidos(conductorActualizado.getApellidos());
+            conductorExistente.setLicencia(conductorActualizado.getLicencia());
+            conductorExistente.setTelefono(conductorActualizado.getTelefono());
+
+            // Actualizar los datos del Vehículo, si existe
+            if (conductorExistente.getVehiculo() != null && conductorActualizado.getVehiculo() != null) {
+                Vehiculo vehiculoExistente = conductorExistente.getVehiculo();
+                Vehiculo vehiculoActualizado = conductorActualizado.getVehiculo();
+
+                vehiculoExistente.setMarca(vehiculoActualizado.getMarca());
+                vehiculoExistente.setModelo(vehiculoActualizado.getModelo());
+                vehiculoExistente.setCapacidad(vehiculoActualizado.getCapacidad());
+                vehiculoExistente.setPlaca(vehiculoActualizado.getPlaca());
+            }
+
+            conductorRepository.save(conductorExistente); // Guardar los cambios
             return true;
         }
         return false;

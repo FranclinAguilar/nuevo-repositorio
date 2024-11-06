@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import conector from '../../Servicios/conector';
 import { useNavigate } from 'react-router-dom';
+import { Form, FormGroup, Input, Label, Button, Alert } from 'reactstrap'; // Importa los componentes de reactstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
 
 const Login = () => {
@@ -21,58 +23,73 @@ const Login = () => {
 
     try {
       const { data, status } = await conector.post('/login', { telefono, password: contraseña });
+
       if (status === 200) {
-        // Almacenar el ID del usuario y el ID de la empresa en localStorage
-        localStorage.setItem('usuarioId', data.id);  // Aquí accedes al 'id' del DTO
+        localStorage.setItem('usuarioId', data.id);
         localStorage.setItem('empresaId', data.empresaId);
         localStorage.setItem('nombre', data.nombre);
         localStorage.setItem('apellido', data.apellido);
+        localStorage.setItem('rol', data.rol);
 
         // Redirigir según el rol
-        navigate(data.rol === 'Pasajero' ? '/inicio_cliente' : '/inicio_oficina');
+        switch (data.rol) {
+          case 'Pasajero':
+            navigate('/inicio_cliente');
+            break;
+          case 'Oficina':
+            navigate('/inicio_oficina');
+            break;
+          case 'Admin':
+            navigate('/inicio_oficina');
+            break;
+          default:
+            setError('Rol desconocido, contacte a soporte.');
+        }
       }
     } catch (err) {
-      setError('Número de teléfono o contraseña incorrectos');
+      if (err.response?.status === 403) {
+        setError('El usuario se encuentra inactivo');
+      } else {
+        setError('Número de teléfono o contraseña incorrectos');
+      }
     } finally {
       setCargando(false);
     }
   };
 
   return (
-    <div className='contenedor-login'>
-      <br />
-      <form onSubmit={manejarEnvio} className="formulario-login">
-        <h2 className='titulo-sesion'>Iniciar sesión</h2><br />
-        <div className="grupo-formulario">
-          <input
-            className='entrada-login'
-            type="text"
-            id="telefono"
-            placeholder="Número de teléfono"
-            value={telefono}
-            onChange={(e) => setTelefono(e.target.value)}
-            required
-          />
-        </div>
-        <div className="grupo-formulario">
-          <input
-            className='entrada-login'
-            type="password"
-            id="contraseña"
-            placeholder="Contraseña"
-            value={contraseña}
-            onChange={(e) => setContraseña(e.target.value)}
-            required
-          />
-        </div>
-        {error && <div className="alerta-error">{error}</div>}
-        <div className='contenedor-boton-login'>
-          <button type="submit" disabled={cargando} className="boton-enviar">
+    <div className='fondo_login'>
+      <div className='contenedor_login'>
+        <h2 className='titulo_sesion'>Iniciar sesión</h2>
+        <Form onSubmit={manejarEnvio}>
+          <FormGroup floating>
+            <Input
+              type="text"
+              id="telefono"
+              placeholder="Número de teléfono"
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
+              required
+            />
+            <Label for="telefono">Número de teléfono</Label>
+          </FormGroup>
+          <FormGroup floating>
+            <Input
+              type="password"
+              id="contraseña"
+              placeholder="Contraseña"
+              value={contraseña}
+              onChange={(e) => setContraseña(e.target.value)}
+              required
+            />
+            <Label for="contraseña">Contraseña</Label>
+          </FormGroup>
+          {error && <Alert color="danger">{error}</Alert>}
+          <Button color="primary" type="submit" disabled={cargando}>
             {cargando ? 'Iniciando sesión...' : 'Iniciar sesión'}
-          </button>
-        </div>
-        <br />
-      </form>
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 };

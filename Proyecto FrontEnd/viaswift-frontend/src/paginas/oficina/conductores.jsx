@@ -11,11 +11,9 @@ const ListaConductores = ({ onSelectConductor }) => {
     const obtenerConductores = async () => {
         setLoading(true);
         setError(null);
-
-
-
         try {
             const respuesta = await conector_unidades.get('/all');
+            console.log(respuesta.data)
             setConductores(respuesta.data);
         } catch (error) {
             setError('Error al obtener los conductores');
@@ -97,21 +95,22 @@ const ListaConductores = ({ onSelectConductor }) => {
             {error && <Alert color="danger">{error}</Alert>}
 
             {conductores.length > 0 ? (
-                <ListGroup>
-                    {conductores.map((conductor) => (
-                        <ListGroupItem key={conductor.id} className="d-flex justify-content-between align-items-center">
-                            <div>
-                                {conductor.nombre} (Vehículo: {conductor.vehiculo.marca})
-                            </div>
-                            <Button color="success" onClick={() => handleSelectConductor(conductor)}>
-                                Seleccionar
-                            </Button>
-                        </ListGroupItem>
-                    ))}
-                </ListGroup>
-            ) : (
-                !loading && <p>Busca Unidades para el Viaje</p>
-            )}
+    <ListGroup>
+        {conductores.map((conductor) => (
+            <ListGroupItem key={conductor.id} className="d-flex justify-content-between align-items-center">
+                <div>
+                    {conductor.nombre} (Vehículo: {conductor.vehiculo ? conductor.vehiculo.marca : 'Sin vehículo asignado'})
+                </div>
+                <Button color="success" onClick={() => handleSelectConductor(conductor)}>
+                    Seleccionar
+                </Button>
+            </ListGroupItem>
+        ))}
+    </ListGroup>
+) : (
+    !loading && <p>Busca Unidades para el Viaje</p>
+)}
+
         </div>
     );
 };

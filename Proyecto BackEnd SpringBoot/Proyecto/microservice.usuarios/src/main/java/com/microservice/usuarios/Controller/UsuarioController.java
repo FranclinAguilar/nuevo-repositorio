@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -20,74 +18,50 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    //Endpoint para visualizar todos los usuarios
     @GetMapping("/all")
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
         List<UsuarioDTO> usuarios = usuarioService.getAllUsuarios();
         return ResponseEntity.ok(usuarios);
     }
 
-
-    //EndPoint para registrar verificando datos de teléfono o email
     @PostMapping("/register")
     public ResponseEntity<String> registerUsuario(@RequestBody Usuario usuario) {
-        // Verificar si el email o el telefono ya existen
-        boolean emailExists = usuarioService.existsByEmail(usuario.getEmail());
-        boolean telefonoExists = usuarioService.existsBytelefono(usuario.getTelefono());
-        boolean ciExists = usuarioService.existsByci(usuario.getCi());
-
-        if (ciExists){
+        if (usuarioService.existsByCi(usuario.getCi())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Documento de Identidad en uso");
         }
-
-        if (emailExists) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("este email ya existe");
+        if (usuarioService.existsByEmail(usuario.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este email ya existe");
         }
-
-        if (telefonoExists) {
+        if (usuarioService.existsByTelefono(usuario.getTelefono())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("El teléfono ya se encuentra en uso");
         }
-
         usuarioService.saveUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuario Registrado");
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> modificarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
-        // Lógica para actualizar el usuario
         boolean isUpdated = usuarioService.updateUsuarioById(id, usuarioActualizado);
-
-        if (!isUpdated) {
-            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>("Usuario modificado exitosamente", HttpStatus.OK);
+        return isUpdated ?
+                ResponseEntity.ok("Usuario modificado exitosamente") :
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
     }
-
-
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminarUsuario(@PathVariable Long id) {
         boolean isRemoved = usuarioService.deleteUsuarioById(id);
-
-        if (!isRemoved) {
-            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
+        return isRemoved ?
+                ResponseEntity.ok("Usuario eliminado exitosamente") :
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
     }
 
-
-
-
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario loginRequest) {
-        Usuario usuario = usuarioService.findBytelefono(loginRequest.getTelefono());
+    public ResponseEntity<?>     login(@RequestBody Usuario loginRequest) {
+        Usuario usuario = usuarioService.findByTelefono(loginRequest.getTelefono());
 
         if (usuario != null && usuario.getPassword().equals(loginRequest.getPassword())) {
-
-            if (usuario.getEstado() == 0) {
-                return ResponseEntity.status(403).body("El usuario se encuentra inactivo");
+            if (!usuario.isEstado()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("El usuario se encuentra inactivo");
             }
 
             UsuarioDTOLogin usuarioDTO = new UsuarioDTOLogin();
@@ -97,13 +71,8 @@ public class UsuarioController {
             usuarioDTO.setEmpresaId(usuario.getEmpresaId());
             usuarioDTO.setRol(usuario.getRol());
 
-            return ResponseEntity.ok().body(usuarioDTO);
-
-        } else {
-            return ResponseEntity.status(401).body("Credenciales inválidas");
+            return ResponseEntity.ok(usuarioDTO);
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
     }
-
-
 }
-

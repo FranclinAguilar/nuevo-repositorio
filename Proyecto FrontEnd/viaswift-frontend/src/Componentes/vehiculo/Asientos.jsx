@@ -69,43 +69,49 @@ const Asientos = () => {
       <>
         <div className="fila fila1">
           {fila1.map(asiento => (
-            <div key={asiento.id} className="asiento">
+            <div key={asiento.id} className={`asiento ${asiento.estado}`}>
               <img src={asientoImg} alt="Asiento" className="asiento-img" />
               <p>{asiento.nombre || `Asiento ${asiento.id}`}</p>
               <button
-                onClick={() => cambiarEstado(asiento.id)}
-                disabled={asiento.estado === 'ocupado'}
-              >
-                {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
-              </button>
+              onClick={() => cambiarEstado(asiento.id)}
+              disabled={asiento.estado === 'reservado' || asiento.estado === 'ocupado'}
+            >
+              {asiento.estado === 'disponible' ? 'Reservar' :
+               asiento.estado === 'reservando' ? 'Reservando..' :
+               asiento.estado === 'reservado' ? 'Reservado' : 'Ocupado'}
+            </button>
             </div>
           ))}
         </div>
         <div className="fila fila2">
           {fila2.map(asiento => (
-            <div key={asiento.id} className="asiento">
+            <div key={asiento.id} className={`asiento ${asiento.estado}`}>
               <img src={asientoImg} alt="Asiento" className="asiento-img" />
               <p className="asiento_name">{asiento.nombre || `Asiento ${asiento.id}`}</p>
               <button
-                onClick={() => cambiarEstado(asiento.id)}
-                disabled={asiento.estado === 'ocupado'}
-              >
-                {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
-              </button>
+              onClick={() => cambiarEstado(asiento.id)}
+              disabled={asiento.estado === 'reservado' || asiento.estado === 'ocupado'}
+            >
+              {asiento.estado === 'disponible' ? 'Reservar' :
+               asiento.estado === 'reservando' ? 'Reservando..' :
+               asiento.estado === 'reservado' ? 'Reservado' : 'Ocupado'}
+            </button>
             </div>
           ))}
         </div>
         <div className="fila fila3">
           {fila3.reverse().map(asiento => (
-            <div key={asiento.id} className="asiento">
+            <div key={asiento.id} className={`asiento ${asiento.estado}`}>
               <img src={asientoImg} alt="Asiento" className="asiento-img" />
               <p className="asiento_name">{asiento.nombre || `Asiento ${asiento.id}`}</p>
               <button
-                onClick={() => cambiarEstado(asiento.id)}
-                disabled={asiento.estado === 'ocupado'}
-              >
-                {asiento.estado === 'disponible' ? 'Reservar' : 'Ocupado'}
-              </button>
+              onClick={() => cambiarEstado(asiento.id)}
+              disabled={asiento.estado === 'reservado' || asiento.estado === 'ocupado'}
+            >
+              {asiento.estado === 'disponible' ? 'Reservar' :
+               asiento.estado === 'reservando' ? 'Reservando..' :
+               asiento.estado === 'reservado' ? 'Reservado' : 'Ocupado'}
+            </button>
             </div>
           ))}
         </div>
