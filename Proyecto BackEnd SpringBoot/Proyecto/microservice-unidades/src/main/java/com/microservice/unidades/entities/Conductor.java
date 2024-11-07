@@ -15,6 +15,7 @@ public class Conductor {
     private String nombre;
     private String apellidos;
     private String licencia;
+    private boolean estado;
     private int telefono;
 
     @OneToOne(mappedBy = "conductor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

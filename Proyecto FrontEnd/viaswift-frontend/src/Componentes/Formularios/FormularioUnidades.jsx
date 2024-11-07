@@ -14,6 +14,7 @@ const FormularioUnidades = () => {
         nombre: '',
         apellidos: '',
         licencia: '',
+        estado: false, // Estado inicializado como falso
         telefono: '',
         vehiculo: {
             marca: '',
@@ -30,6 +31,7 @@ const FormularioUnidades = () => {
                 nombre: unidadSeleccionada.nombre || '',
                 apellidos: unidadSeleccionada.apellidos || '',
                 licencia: unidadSeleccionada.licencia || '',
+                estado: unidadSeleccionada.estado || false, // Cargar el estado desde unidadSeleccionada
                 telefono: unidadSeleccionada.telefono || '',
                 vehiculo: {
                     marca: unidadSeleccionada.vehiculo.marca || '',
@@ -44,7 +46,7 @@ const FormularioUnidades = () => {
     const registrar = async (e) => {
         e.preventDefault();
         console.log('Datos a enviar:', conductor);
-    
+
         try {
             let respuesta;
             if (unidadSeleccionada) {
@@ -57,11 +59,9 @@ const FormularioUnidades = () => {
                 setMensaje('Unidad registrada correctamente');
             }
         } catch (error) {
-            // Si el error tiene una respuesta con un mensaje, se extrae ese mensaje
             setMensaje(error.response ? error.response.data.message || "Error al registrar o actualizar la unidad" : "Error desconocido");
         }
     };
-    
 
     return (
         <div className='fondo_formulario'>
@@ -118,6 +118,19 @@ const FormularioUnidades = () => {
                             <Label for="telefono">Teléfono</Label>
                         </FormGroup>
                     </div>
+                    
+                    {/* Estado Checkbox */}
+                    <FormGroup check className="form-group">
+                        <Label check>
+                            <Input
+                                type="checkbox"
+                                id="estado"
+                                checked={conductor.estado}
+                                onChange={(e) => setConductor({ ...conductor, estado: e.target.checked })}
+                            />
+                            Estado (Activo)
+                        </Label>
+                    </FormGroup>
 
                     {/* Vehicle Section */}
                     <div className="form-row">

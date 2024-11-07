@@ -34,46 +34,48 @@ const Crud_Usuarios = () => {
         }
     };
 
-    // Eliminar Usuario (cambiar estado)
-    // Eliminar Usuario (cambiar estado)
+    // Cambiar estado de usuario (activar/inactivar)
     const eliminarUsuario = async (nombre, id, estadoActual) => {
-        const nuevoEstado = estadoActual === true ? false : true; // Alternar entre true y false
+        const nuevoEstado = !estadoActual;
         const mensajeEstado = nuevoEstado ? 'activo' : 'inactivo';
-        
-        // Encontrar el usuario por ID y preparar el objeto actualizado con el nuevo estado
-        const usuarioActualizado = usuarios.find(usuario => usuario.id === id);
-        
-        if (usuarioActualizado) {
-            const usuarioConEstadoActualizado = { ...usuarioActualizado, estado: nuevoEstado };
-            
-            if (window.confirm(`¿Estás seguro de que deseas cambiar el estado del usuario ${nombre} a ${mensajeEstado}?`)) {
-                try {
-                    const respuestaActualizacion = await conector.put(`/update/${id}`, usuarioConEstadoActualizado);
-                    if (respuestaActualizacion.status === 200) {
-                        listarUsuarios(); // Recargar la lista de usuarios después de la actualización
-                        alert(`El estado del usuario ${nombre} ha sido cambiado a ${mensajeEstado} exitosamente`);
-                    }
-                } catch (error) {
-                    alert(error.response?.status === 404 ? 'Usuario no encontrado' : 'Error al cambiar el estado del usuario');
+
+        const Estado = {
+            "estado": nuevoEstado
+        };
+
+        if (window.confirm(`¿Estás seguro de que deseas cambiar el estado del usuario ${nombre} a ${mensajeEstado}?`)) {
+            try {
+                const respuestaActualizacion = await conector.put('/actualizarEstado/' + id, Estado);
+                if (respuestaActualizacion.status === 200) {
+                    listarUsuarios();
+                    alert(`El estado del usuario ${nombre} ha sido cambiado a ${mensajeEstado} exitosamente`);
                 }
+            } catch (error) {
+                alert(error.response?.status === 404 ? 'Usuario no encontrado' : 'Error al cambiar el estado del usuario');
             }
-        } else {
-            alert("Usuario no encontrado en la lista");
         }
     };
-    
-
-    
 
     useEffect(() => {
         listarUsuarios(); // Llamar a la función al cargar el componente
     }, []);
 
-    // Filtrar usuarios según la búsqueda
-    const filtrarUsuarios = () => {
-        return usuarios.filter(usuario =>
+    // Filtrar y ordenar usuarios
+    const filtrarYOrdenarUsuarios = () => {
+        // 1. Filtrar usuarios que no tengan rol "Oficina" ni "Admin"
+        const usuariosFiltrados = usuarios.filter(usuario =>
+            usuario.rol !== "Oficina" && usuario.rol !== "Admin"
+        );
+
+        // 2. Filtrar por la búsqueda
+        const usuariosFiltradosBusqueda = usuariosFiltrados.filter(usuario =>
             `${usuario.nombre} ${usuario.apellido}`.toLowerCase().includes(busqueda.toLowerCase())
         );
+
+        // 3. Ordenar los usuarios para que los activos (true) aparezcan primero
+        const usuariosOrdenados = usuariosFiltradosBusqueda.sort((a, b) => b.estado - a.estado);
+
+        return usuariosOrdenados;
     };
 
     return (
@@ -120,8 +122,8 @@ const Crud_Usuarios = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filtrarUsuarios().length > 0 ? (
-                            filtrarUsuarios().map((usuario) => (
+                        {filtrarYOrdenarUsuarios().length > 0 ? (
+                            filtrarYOrdenarUsuarios().map((usuario) => (
                                 <tr key={usuario.id} className="text-center">
                                     <td>{`${usuario.nombre || 'N/A'} ${usuario.apellido || 'N/A'}`}</td>
                                     <td>{usuario.ci}</td>
@@ -129,7 +131,7 @@ const Crud_Usuarios = () => {
                                     <td>{usuario.telefono || 'N/A'}</td>
                                     <td>{usuario.direccion || 'N/A'}</td>
                                     <td>{usuario.email || 'N/A'}</td>
-                                    <td>{usuario.estado === true ? 'Activo' : 'Inactivo'}</td>
+                                    <td>{usuario.estado ? 'Activo' : 'Inactivo'}</td>
                                     <td>
                                         <button
                                             className="btn btn-warning btn-sm me-1"
@@ -141,9 +143,9 @@ const Crud_Usuarios = () => {
                                         <button
                                             className="btn btn-danger btn-sm"
                                             onClick={() => eliminarUsuario(usuario.nombre, usuario.id, usuario.estado)}
-                                            title="Eliminar Usuario"
+                                            title={usuario.estado ? "Suspender Usuario" : "Activar Usuario"}
                                         >
-                                            Borrar
+                                            {usuario.estado ? "Suspender" : "Activar"}
                                         </button>
                                     </td>
                                 </tr>

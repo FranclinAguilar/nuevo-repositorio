@@ -1,108 +1,123 @@
 import React, { useEffect, useState } from 'react';
 import conector_reservas from '../../Servicios/conector_reservas';
-//import './misviajes.css';
+import html2canvas from 'html2canvas';  // Importamos html2canvas
 
 const MisViajes = () => {
-  const [reservas, setReservas] = useState([]); // Estado para almacenar reservas
-  const [viajeSeleccionado, setViajeSeleccionado] = useState(null); // Estado para almacenar el viaje seleccionado
-  const [error, setError] = useState(null); // Estado para manejar errores
-  const [loading, setLoading] = useState(false); // Estado para manejar el loading
-  const [loadingViaje, setLoadingViaje] = useState(false); // Loading para el popover
+  const [viajes, setViajes] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [usuarioRol, setUsuarioRol] = useState(localStorage.getItem("rol"));
+  const [usuarioId, setUsuarioId] = useState(localStorage.getItem("usuarioId"));
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Función para obtener todas las reservas del usuario
-  const fetchReservas = async () => {
-    const idUsuario = localStorage.getItem("usuarioId");
+  const fetchViajes = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const respuesta = await conector_reservas.get(`/reservas/${idUsuario}`);
-      console.log("esto es lo que se recibe",respuesta.data)
-      setReservas(respuesta.data);
+      const respuesta = await conector_reservas.get(`/all`);
+      setViajes(respuesta.data);
     } catch (error) {
-      console.error('Error al cargar las reservas:', error);
-      setError('Ocurrió un error al cargar las reservas.');
+      setError('Ocurrió un error al cargar los viajes.');
     } finally {
       setLoading(false);
     }
   };
 
-  // Función para obtener los detalles de un viaje por su ID y mostrar en el popover
-  const fetchViajePorId = async (idViaje) => {
-    alert(idViaje);
-    setLoadingViaje(true);
-    setError(null);
+  useEffect(() => {
+    fetchViajes();
+  }, []);
 
-    try {
-      const respuesta = await conector_reservas.get(`/viajes/${idViaje}`);
-      setViajeSeleccionado(respuesta.data); // Guardar el viaje en el estado para mostrar en el popover
-    } catch (error) {
-      console.error('Error al cargar el viaje:', error);
-      setError('Ocurrió un error al cargar el viaje.');
-    } finally {
-      setLoadingViaje(false);
+  // Función para filtrar viajes y reservas
+  const filtrarViajesYReservas = (viajes) => {
+    if (usuarioRol === 'Oficina') {
+      // Si el rol es Oficina, mostrar todos los viajes y reservas
+      return viajes;
+    } else {
+      // Si el rol es Pasajero, solo mostrar los viajes y reservas del usuario
+      return viajes.filter((viaje) => {
+        return viaje.reservas.some((reserva) => reserva.idUsuario === parseInt(usuarioId));
+      });
     }
   };
 
-  // Cargar las reservas al montar el componente
-  useEffect(() => {
-    fetchReservas();
-  }, []);
+  // Función para descargar como imagen
+  const descargarImagen = (viaje, reserva) => {
+    const elementoDescarga = document.getElementById(`viaje-${viaje.idViaje}-reserva-${reserva.idReserva}`);
+    html2canvas(elementoDescarga).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = imgData;
+      link.download = `reserva-${reserva.numReserva}.png`;
+      link.click();
+    });
+  };
 
   return (
     <div className="mis-viajes-container">
       <h2>Mis Reservas</h2>
 
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Buscar por viaje o reserva"
+        className="search-input"
+      />
+
       {error && <div className="error-message">{error}</div>}
 
       {loading ? (
-        <p>Cargando reservas...</p>
-      ) : reservas.length === 0 ? (
-        <p>No tienes reservas registradas.</p>
+        <p>Cargando viajes...</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Reserva</th>
-              <th>Fecha  y  Hora</th>
-              <th>Asientos</th>
-              <th>Precio</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            {reservas.map((reserva) => (
-              <tr key={reserva.idReserva}>
-                <td>{reserva.numReserva || 'N/A'}</td>
-                <td>{reserva.fechaHora || 'N/A'}</td>
-                <td>{reserva.asientos || 'N/A'}</td>
-                <td>{reserva.precio || 'N/A'}</td>
-                <td>{reserva.estado || 'N/A'}</td>
-                <td>
-                  <button
-                    onClick={() => fetchViajePorId(reserva.idViaje)}
-                    disabled={loadingViaje && viajeSeleccionado?.id === reserva.idViaje}
-                  >
-                    {loadingViaje && viajeSeleccionado?.id === reserva.idViaje ? 'Cargando...' : 'Ver Viaje'}
-                  </button>
-                  {viajeSeleccionado && viajeSeleccionado.id === reserva.idViaje && (
-                    <div className="popover">
-                      <h4>Detalles del Viaje</h4>
-                      <p><strong>Viaje:</strong> {viajeSeleccionado.numViaje}</p>
-                      <p><strong>Fecha:</strong> {viajeSeleccionado.fecha}</p>
-                      <p><strong>Origen:</strong> {viajeSeleccionado.origen}</p>
-                      <p><strong>Destino:</strong> {viajeSeleccionado.destino}</p>
-                      <p><strong>Estado:</strong> {viajeSeleccionado.estado}</p>
-                      <button onClick={() => setViajeSeleccionado(null)}>Cerrar</button>
-                    </div>
-                  )}
-                </td>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Id Viaje</th>
+                <th>Num Viaje</th>
+                <th>Fecha</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Estado</th>
+                <th>Id Conductor</th>
+                <th>Id Reserva</th>
+                <th>Nombre Reserva</th>
+                <th>Num Reserva</th>
+                <th>Asientos</th>
+                <th>Precio</th>
+                <th>Fecha Hora</th>
+                <th>Estado Reserva</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filtrarViajesYReservas(viajes).map((viaje) => {
+                return viaje.reservas.map((reserva) => (
+                  <tr key={reserva.idReserva} id={`viaje-${viaje.idViaje}-reserva-${reserva.idReserva}`}>
+                    <td>{viaje.idViaje}</td>
+                    <td>{viaje.numViaje}</td>
+                    <td>{viaje.fecha}</td>
+                    <td>{viaje.origen}</td>
+                    <td>{viaje.destino}</td>
+                    <td>{viaje.estado}</td>
+                    <td>{viaje.idConductor}</td>
+                    <td>{reserva.idReserva}</td>
+                    <td>{reserva.nombreApellido}</td>
+                    <td>{reserva.numReserva}</td>
+                    <td>{reserva.asientos}</td>
+                    <td>{reserva.precio}</td>
+                    <td>{reserva.fechaHora}</td>
+                    <td>{reserva.estado}</td>
+                    <td>
+                      <button onClick={() => descargarImagen(viaje, reserva)}>Descargar Ticket</button>
+                    </td>
+                  </tr>
+                ));
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

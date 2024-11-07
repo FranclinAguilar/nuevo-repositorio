@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import conector_unidades from '../../Servicios/conector_unidades';
 import './Crud_unidades.css';
@@ -17,7 +17,7 @@ const Crud_Unidades = () => {
 
     // Modificar Unidad (Conductor)
     const modificarUnidad = (unidad) => {
-        navigate("/registro_unidad", { state: { unidad } }); 
+        navigate("/registro_unidad", { state: { unidad } });
     };
 
     // Listar Unidades (Conductores)
@@ -27,24 +27,31 @@ const Crud_Unidades = () => {
         try {
             const respuesta = await conector_unidades.get("/all");
             setUnidades(respuesta.data);
-            setCargando(false);
         } catch (error) {
             setError(error.message);
+        } finally {
             setCargando(false);
         }
     };
 
-    // Eliminar Unidades (Conductores)
-    const eliminarUnidad = async (nombre, id) => {
-        if (window.confirm('¿Estás seguro de que deseas eliminar al conductor ' + nombre + '?')) {
+    // Cambiar estado de Unidad (activar/inactivar)
+    const cambiarEstadoUnidad = async (nombre, id, estadoActual) => {
+        const nuevoEstado = !estadoActual;
+        const mensajeEstado = nuevoEstado ? 'activo' : 'inactivo';
+
+        const Estado = {
+            "estado": nuevoEstado
+        };
+
+        if (window.confirm(`¿Estás seguro de que deseas cambiar el estado del conductor ${nombre} a ${mensajeEstado}?`)) {
             try {
-                const respuesta = await conector_unidades.delete('/conductores/delete/' + id);
-                if (respuesta.status === 200) {
+                const respuestaActualizacion = await conector_unidades.put('/actualizarEstadoConductor/' + id, Estado);
+                if (respuestaActualizacion.status === 200) {
                     listarUnidades();
-                    alert("Conductor eliminado correctamente");
+                    alert(`El estado del conductor ${nombre} ha sido cambiado a ${mensajeEstado} exitosamente`);
                 }
             } catch (error) {
-                alert("Error al eliminar el conductor");
+                alert("Error al cambiar el estado del conductor");
             }
         }
     };
@@ -53,10 +60,13 @@ const Crud_Unidades = () => {
     const filtrarUnidades = () => {
         return unidades.filter((unidad) =>
             (unidad.nombre && unidad.nombre.toLowerCase().includes(searchQuery.toLowerCase())) ||
-            (unidad.apellidos && unidad.apellidos.toLowerCase().includes(searchQuery.toLowerCase())) //||
-            //(unidad.vehiculo && unidad.vehiculo.placa && unidad.vehiculo.placa.toLowerCase().includes(searchQuery.toLowerCase()))
+            (unidad.apellidos && unidad.apellidos.toLowerCase().includes(searchQuery.toLowerCase()))
         );
     };
+
+    useEffect(() => {
+        listarUnidades(); // Llamar a la función al cargar el componente
+    }, []);
 
     return (
         <div className="contenedor-lista-unidades">
@@ -86,6 +96,7 @@ const Crud_Unidades = () => {
                 <thead>
                     <tr>
                         <th className='th-esquina1'>N°</th>
+                        <th>Estado</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Licencia</th>
@@ -101,6 +112,7 @@ const Crud_Unidades = () => {
                         filtrarUnidades().map((unidad, index) => (
                             <tr key={unidad.id}>
                                 <td>{index + 1}</td>
+                                <td>{unidad.estado ? 'Activo' : 'Inactivo'}</td>
                                 <td>{unidad.nombre || 'N/A'}</td>
                                 <td>{unidad.apellidos || 'N/A'}</td>
                                 <td>{unidad.licencia || 'N/A'}</td>
@@ -110,13 +122,18 @@ const Crud_Unidades = () => {
                                 <td>{unidad.vehiculo ? unidad.vehiculo.capacidad : 'N/A'}</td>
                                 <td>
                                     <button className="btn-warning" onClick={() => modificarUnidad(unidad)}>Editar</button>
-                                    <button className="btn-danger" onClick={() => eliminarUnidad(unidad.nombre, unidad.id)}>Borrar</button>
+                                    <button
+                                        className={`btn-${unidad.estado ? 'danger' : 'success'}`}
+                                        onClick={() => cambiarEstadoUnidad(unidad.nombre, unidad.id, unidad.estado)}
+                                    >
+                                        {unidad.estado ? 'Suspender' : 'Activar'}
+                                    </button>
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="9" className="text-center">No hay conductores disponibles</td>
+                            <td colSpan="10" className="text-center">No hay conductores disponibles</td>
                         </tr>
                     )}
                 </tbody>

@@ -66,6 +66,16 @@ public class UsuarioService {
         }};
     }
 
+    public boolean actualizarEstadoById(Long id, Usuario estadoActualizado){
+        Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
+        return usuarioExistente.map(usuario -> {
+            usuario.setEstado(estadoActualizado.isEstado());
+
+            usuarioRepository.save(usuario);
+            return true;
+        }).orElse(false);
+    }
+
     public boolean updateUsuarioById(Long id, Usuario usuarioActualizado) {
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
 

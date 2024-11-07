@@ -9,6 +9,7 @@ public class VehiculoDTO {
 
     private Long id;
     private String marca;
+    private int modelo;
     private int capacidad;
-    private int placa;
+    private String placa;
 }

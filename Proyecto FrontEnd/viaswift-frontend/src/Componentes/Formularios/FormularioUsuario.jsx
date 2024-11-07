@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, Button, Alert } from 'reactstrap';
-import conector from '../../Servicios/conector'; 
+import conector from '../../Servicios/conector';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './FormularioUsuario.css';
 
@@ -23,6 +23,10 @@ const FormularioUsuario = () => {
     const [contraseña, setContraseña] = useState('');
     const [mensaje, setMensaje] = useState('');
 
+    // Fecha máxima permitida: 10 años atrás
+    const fechaMaxima = new Date();
+    fechaMaxima.setFullYear(fechaMaxima.getFullYear() - 10);
+
     useEffect(() => {
         if (usuarioSeleccionado) {
             setNombre(usuarioSeleccionado.nombre || '');
@@ -39,24 +43,19 @@ const FormularioUsuario = () => {
             if (registradoPor === 'Oficina') {
                 setRol('Pasajero');
             } else {
-                setRol(usuarioSeleccionado.rol || 'Pasajero'); // Si no existe un rol, por defecto será "Pasajero"
+                setRol(usuarioSeleccionado.rol || 'Pasajero'); 
             }
         } else {
-            // Si no hay usuario seleccionado, establecer el rol basado en el tipo de quien lo registra
             if (registradoPor === 'Oficina') {
                 setRol('Pasajero');
             } else {
-                setRol('');  // Si no es Oficina, dejarlo vacío o usar el valor por defecto.
+                setRol('');  
             }
         }
     }, [usuarioSeleccionado, registradoPor]);
 
     const registrar = async (e) => {
         e.preventDefault();
-        alert(rol)
-        
-
-        
         const DatosUsuario = {
             nombre,
             apellido,
@@ -68,7 +67,7 @@ const FormularioUsuario = () => {
             empresaId,
             registradoPor,
             estado,
-            rol,  // Aquí siempre se pasará el rol, el cual se forzará a 'Pasajero' cuando sea Oficina
+            rol,
             password: contraseña,
         };
         console.log('Datos a enviar:', DatosUsuario);
@@ -82,11 +81,7 @@ const FormularioUsuario = () => {
                 setMensaje(respuestaRegistro.data);
             }
         } catch (error) {
-            if (error.response) {
-                setMensaje(error.response.data);
-            } else {
-                setMensaje("Error al registrar el usuario");
-            }
+            setMensaje(error.response ? error.response.data : "Error al registrar el usuario");
         }
     };
 
@@ -127,6 +122,7 @@ const FormularioUsuario = () => {
                                 id="fNacimiento"
                                 placeholder="Fecha de nacimiento"
                                 value={fecha_nacimiento}
+                                max={fechaMaxima.toISOString().split('T')[0]}
                                 onChange={(e) => setFNacimiento(e.target.value)}
                                 required
                             />
@@ -174,7 +170,7 @@ const FormularioUsuario = () => {
                                 placeholder="Contraseña"
                                 value={contraseña}
                                 onChange={(e) => setContraseña(e.target.value)}
-                                required={!usuarioSeleccionado} // Solo requerido si es nuevo usuario
+                                required={!usuarioSeleccionado}
                             />
                             <Label for="contraseña">Contraseña</Label>
                         </FormGroup>
@@ -192,7 +188,6 @@ const FormularioUsuario = () => {
                         <Label for="email">Correo Electrónico</Label>
                     </FormGroup>
 
-                    {/* Campo de rol (solo Admin) */}
                     {registradoPor === 'Admin' && (
                         <div className="form-row">
                             <FormGroup floating className="form-group col-md-6">

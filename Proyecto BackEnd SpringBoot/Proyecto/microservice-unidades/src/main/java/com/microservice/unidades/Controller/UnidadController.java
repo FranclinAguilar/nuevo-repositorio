@@ -51,6 +51,21 @@ public class UnidadController {
         }
     }
 
+    @PutMapping("/actualizarEstadoConductor/{id}")
+    public ResponseEntity<?> actualizarEstado(@PathVariable Long id, @RequestBody Conductor actualizarEstado){
+        try {
+            boolean actualizado = conductorService.actualizarEstadoConductor(id, actualizarEstado);
+            if (actualizado){
+                return ResponseEntity.ok("Estado actualizado correctamente");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("conductor no encontrado");
+
+            }
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error al actualizar el estado: " + e.getMessage());
+
+        }
+    }
 
 
     //buscar por su id

@@ -35,6 +35,21 @@ public class ConductorService {
         }
         return false;
     }
+    public boolean actualizarEstadoConductor(Long id, Conductor estadoActualizado) {
+        Optional<Conductor> estadoOptional = conductorRepository.findById(id);
+
+        if (estadoOptional.isPresent()) {
+
+            Conductor conductorExists = estadoOptional.get();
+            conductorExists.setEstado(estadoActualizado.isEstado());
+            conductorRepository.save(conductorExists);
+            return true;
+        }
+        return false;
+
+    }
+
+
     public boolean updateConductor(Long id, Conductor conductorActualizado) {
         Optional<Conductor> conductorOptional = conductorRepository.findById(id);
         if (conductorOptional.isPresent()) {
@@ -45,6 +60,7 @@ public class ConductorService {
             conductorExistente.setApellidos(conductorActualizado.getApellidos());
             conductorExistente.setLicencia(conductorActualizado.getLicencia());
             conductorExistente.setTelefono(conductorActualizado.getTelefono());
+            conductorExistente.setEstado(conductorActualizado.isEstado());
 
             // Actualizar los datos del Vehículo, si existe
             if (conductorExistente.getVehiculo() != null && conductorActualizado.getVehiculo() != null) {
@@ -75,10 +91,12 @@ public class ConductorService {
                         .apellidos(conductor.getApellidos())
                         .licencia(conductor.getLicencia())
                         .telefono(conductor.getTelefono())
+                        .estado(conductor.isEstado())
                         .vehiculo(conductor.getVehiculo() != null ? VehiculoDTO.builder()
                                 .id(conductor.getVehiculo().getId())
                                 .marca(conductor.getVehiculo().getMarca())
                                 .placa(conductor.getVehiculo().getPlaca())
+                                .modelo(conductor.getVehiculo().getModelo())
                                 .capacidad(conductor.getVehiculo().getCapacidad())
 
                                 .build() : null)

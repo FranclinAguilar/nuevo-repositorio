@@ -47,6 +47,16 @@ public class UsuarioController {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
     }
 
+    @PutMapping("/actualizarEstado/{id}")
+    public ResponseEntity<String> modidificarEstado(@PathVariable Long id, @RequestBody Usuario estadoActualizado){
+        boolean isUpdated = usuarioService.actualizarEstadoById(id, estadoActualizado);
+        return isUpdated ?
+                ResponseEntity.ok("Estado actualizado correctamente") :
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+
+    }
+
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminarUsuario(@PathVariable Long id) {
         boolean isRemoved = usuarioService.deleteUsuarioById(id);

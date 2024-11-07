@@ -18,7 +18,7 @@ public class Vehiculo {
 
     private int capacidad;
 
-    private int placa;
+    private String placa;
 
 
 
